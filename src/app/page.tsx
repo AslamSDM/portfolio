@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 
 // Dynamically import Spline to avoid SSR issues
 const Spline = React.lazy(() => import("@splinetool/react-spline"));
@@ -27,6 +28,7 @@ const Portfolio = () => {
   const [scrollY, setScrollY] = useState(0);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -106,37 +108,6 @@ const Portfolio = () => {
     },
   ];
 
-  const portfolioItems = [
-    {
-      title: "Enterprise DeFi Platform",
-      category: "Blockchain",
-      image: "/api/placeholder/400/250",
-      description: "Full-stack DeFi platform with automated market making",
-      tech: ["Solidity", "Next.js", "Web3.js"],
-    },
-    {
-      title: "AI-Powered Code Auditor",
-      category: "AI/ML",
-      image: "/api/placeholder/400/250",
-      description: "Automated smart contract security analysis tool",
-      tech: ["Python", "TensorFlow", "Rust"],
-    },
-    {
-      title: "Cross-Chain Bridge",
-      category: "Blockchain",
-      image: "/api/placeholder/400/250",
-      description: "Secure asset transfer between multiple blockchains",
-      tech: ["Solidity", "TypeScript", "Chainlink"],
-    },
-    {
-      title: "Real-time Analytics Dashboard",
-      category: "Full-Stack",
-      image: "/api/placeholder/400/250",
-      description: "High-performance dashboard for crypto trading data",
-      tech: ["React", "Node.js", "WebSocket"],
-    },
-  ];
-
   const skills = {
     Languages: [
       "Rust",
@@ -167,6 +138,10 @@ const Portfolio = () => {
   };
 
   const scrollToSection = (sectionId: string) => {
+    if (sectionId === "portfolio") {
+      router.push("/portfolio");
+      return;
+    }
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
     setIsMenuOpen(false);
   };
@@ -479,72 +454,6 @@ const Portfolio = () => {
                 <p className="text-foreground/80 leading-relaxed">
                   {project.description}
                 </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Award className="inline-block mr-3 mb-1" />
-            Portfolio Showcase
-          </motion.h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8">
-            {portfolioItems.map((item, index) => (
-              <motion.div
-                key={index}
-                className="group glass-effect rounded-xl overflow-hidden hover:bg-muted/50 transition-all duration-300 shadow-lg"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="relative overflow-hidden bg-muted h-48 md:h-64 flex items-center justify-center">
-                  <div className="text-6xl md:text-8xl text-accent/20">
-                    {item.category === "Blockchain"
-                      ? "₿"
-                      : item.category === "AI/ML"
-                      ? "🤖"
-                      : item.category === "Full-Stack"
-                      ? "⚡"
-                      : "🚀"}
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
-                      {item.title}
-                    </h3>
-                    <span className="text-xs px-2 py-1 bg-muted rounded-full text-accent font-medium">
-                      {item.category}
-                    </span>
-                  </div>
-                  <p className="text-foreground/70 mb-4 text-sm leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.tech.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="text-xs px-2 py-1 bg-accent/10 text-accent rounded border border-accent/20"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               </motion.div>
             ))}
           </div>
