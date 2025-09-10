@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
+import Image from "next/image";
 import {
   ChevronDown,
   Mail,
@@ -19,6 +20,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+import { q } from "framer-motion/client";
 
 // Dynamically import Spline to avoid SSR issues
 const Spline = React.lazy(() => import("@splinetool/react-spline"));
@@ -146,43 +148,14 @@ const Portfolio = () => {
     setIsMenuOpen(false);
   };
 
-  const FloatingParticles = () => (
-    <div className="floating-particles">
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="particle"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            width: `${Math.random() * 6 + 4}px`,
-            height: `${Math.random() * 6 + 4}px`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, Math.random() * 30 - 15, 0],
-            opacity: [0.3, 0.8, 0.3],
-          }}
-          transition={{
-            duration: Math.random() * 4 + 4,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-          }}
-        />
-      ))}
-    </div>
-  );
-
   if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-background text-foreground grain-texture noise-texture transition-colors duration-300">
-      <FloatingParticles />
-
       {/* Navigation */}
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrollY > 50 ? "glass-effect shadow-lg" : "bg-transparent"
         }`}
@@ -191,11 +164,13 @@ const Portfolio = () => {
           <div className="flex justify-between items-center py-4">
             <motion.div
               className="text-2xl font-bold text-foreground"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               whileHover={{ scale: 1.05 }}
             ></motion.div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-6">
               {[
                 "Home",
                 "Experience",
@@ -217,21 +192,27 @@ const Portfolio = () => {
                 </motion.button>
               ))}
 
+              <span className="absolute inset-0 w-0 bg-accent/20 transition-all duration-300 ease-out group-hover:w-full"></span>
+              <span
+                className="flex items-center gap-2 relative z-10"
+                onClick={() => {
+                  // Replace with your CV link
+                  window.open("/Mohammed_Aslam_CV.pdf", "_blank");
+                }}
+              >
+                <Download size={16} />
+                Download CV
+              </span>
+
               {/* Theme Toggle */}
             </div>
 
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center space-x-2">
               <motion.button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full bg-muted hover:bg-accent/20 transition-colors"
-                whileTap={{ scale: 0.9 }}
-              >
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-              </motion.button>
-
-              <motion.button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileTap={{ scale: 0.9 }}
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -267,6 +248,13 @@ const Portfolio = () => {
                     {item}
                   </motion.button>
                 ))}
+
+                {/* Mobile Action Buttons */}
+
+                <span className="flex items-center gap-2 justify-center relative z-10">
+                  <Download size={16} />
+                  Download CV
+                </span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -279,10 +267,10 @@ const Portfolio = () => {
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
       >
         {/* Spline 3D Background */}
-        <div className="spline-container">
+        <div className="spline-container bg-black">
           <Suspense
             fallback={
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-black animate-pulse" />
+              <div className="absolute inset-0 bg-black animate-pulse" />
             }
           >
             <Spline scene="https://prod.spline.design/VUs1kl9EKK-YhweW/scene.splinecode" />
@@ -291,52 +279,32 @@ const Portfolio = () => {
 
         {/* Content Overlay */}
         <motion.div
-          className="content-overlay text-center px-4 max-w-4xl mx-auto absolute bottom-0 top-[300px]"
+          className="absolute inset-x-0 bottom-[10px] md:bottom-32 z-10"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.button
-              onClick={() => scrollToSection("projects")}
-              className="bg-foreground text-background hover:bg-accent px-8 py-4 rounded-full font-semibold transition-all duration-200 shadow-lg hover-lift"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+          <div className="flex flex-col items-center">
+            <motion.div
+              className="flex justify-center px-4"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
             >
-              View My Work
-            </motion.button>
-
-            <motion.button
-              onClick={() => scrollToSection("contact")}
-              className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background px-8 py-4 rounded-full font-semibold transition-all duration-200 hover-lift"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get In Touch
-            </motion.button>
-
-            <motion.button
-              className="border-2 border-accent text-accent hover:bg-accent hover:text-background px-8 py-4 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 justify-center hover-lift"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Download size={20} />
-              Download CV
-            </motion.button>
-          </motion.div>
-
-          <motion.div
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <ChevronDown size={32} className="text-accent" />
-          </motion.div>
+              <motion.button
+                onClick={() => scrollToSection("contact")}
+                className="group relative px-6 py-3 overflow-hidden rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="absolute inset-0 w-0 bg-white/20 transition-all duration-300 ease-out group-hover:w-full"></span>
+                <span className="flex items-center gap-2 relative z-10">
+                  <Mail size={18} />
+                  Get In Touch
+                </span>
+              </motion.button>
+            </motion.div>
+          </div>
         </motion.div>
       </section>
 
@@ -344,13 +312,13 @@ const Portfolio = () => {
       <section id="experience" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text"
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Briefcase className="inline-block mr-3 mb-1" />
+            <Briefcase className="inline-block mr-3 mb-1 text-accent" />
             Professional Experience
           </motion.h2>
 
@@ -358,11 +326,11 @@ const Portfolio = () => {
             {experiences.map((exp, index) => (
               <motion.div
                 key={index}
-                className="glass-effect rounded-xl p-6 md:p-8 hover:bg-muted/50 transition-all duration-300 shadow-lg"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                className="glass-effect rounded-xl p-6 md:p-8 hover:bg-white/10 transition-all duration-300 shadow-lg"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true, margin: "-50px" }}
                 whileHover={{ y: -5 }}
               >
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
@@ -370,10 +338,10 @@ const Portfolio = () => {
                     <h3 className="text-xl md:text-2xl font-bold text-accent mb-2">
                       {exp.role}
                     </h3>
-                    <h4 className="text-lg md:text-xl font-semibold mb-1 text-foreground">
+                    <h4 className="text-lg md:text-xl font-semibold mb-1 text-white">
                       {exp.company}
                     </h4>
-                    <p className="text-foreground/70">{exp.location}</p>
+                    <p className="text-white/80">{exp.location}</p>
                   </div>
                   <div className="text-accent font-medium mt-2 md:mt-0">
                     {exp.duration}
@@ -381,17 +349,10 @@ const Portfolio = () => {
                 </div>
                 <ul className="space-y-2">
                   {exp.achievements.map((achievement, idx) => (
-                    <motion.li
-                      key={idx}
-                      className="flex items-start"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: idx * 0.1 }}
-                      viewport={{ once: true }}
-                    >
+                    <li key={idx} className="flex items-start">
                       <span className="text-accent mr-3 mt-1">▸</span>
-                      <span className="text-foreground/80">{achievement}</span>
-                    </motion.li>
+                      <span className="text-white/90">{achievement}</span>
+                    </li>
                   ))}
                 </ul>
               </motion.div>
@@ -404,13 +365,13 @@ const Portfolio = () => {
       <section id="projects" className="py-20 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text"
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Code className="inline-block mr-3 mb-1" />
+            <Code className="inline-block mr-3 mb-1 text-accent" />
             Featured Projects
           </motion.h2>
 
@@ -418,21 +379,21 @@ const Portfolio = () => {
             {projects.map((project, index) => (
               <motion.div
                 key={index}
-                className="glass-effect rounded-xl p-6 md:p-8 hover:bg-muted/50 transition-all duration-300 group shadow-lg"
-                initial={{ opacity: 0, y: 50 }}
+                className="glass-effect rounded-xl p-6 md:p-8 hover:bg-white/10 transition-all duration-300 group shadow-lg"
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true, margin: "-50px" }}
                 whileHover={{ y: -5 }}
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl md:text-2xl font-bold text-foreground group-hover:text-accent transition-colors">
+                  <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-accent transition-colors">
                     {project.title}
                   </h3>
                   <div className="flex gap-2">
                     <motion.a
                       href={project.github}
-                      className="text-accent hover:text-foreground transition-colors"
+                      className="text-accent hover:text-white transition-colors"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                     >
@@ -440,7 +401,7 @@ const Portfolio = () => {
                     </motion.a>
                     <motion.a
                       href={project.demo}
-                      className="text-accent hover:text-foreground transition-colors"
+                      className="text-accent hover:text-white transition-colors"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                     >
@@ -451,7 +412,7 @@ const Portfolio = () => {
                 <p className="text-accent text-sm mb-4 font-medium">
                   {project.tech}
                 </p>
-                <p className="text-foreground/80 leading-relaxed">
+                <p className="text-white/90 leading-relaxed">
                   {project.description}
                 </p>
               </motion.div>
@@ -464,7 +425,7 @@ const Portfolio = () => {
       <section id="skills" className="py-20 px-4 bg-muted/20">
         <div className="max-w-6xl mx-auto">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text"
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -477,11 +438,11 @@ const Portfolio = () => {
             {Object.entries(skills).map(([category, skillList], index) => (
               <motion.div
                 key={index}
-                className="glass-effect rounded-xl p-6 hover:bg-muted/50 transition-all duration-300 shadow-lg"
-                initial={{ opacity: 0, y: 50 }}
+                className="glass-effect rounded-xl p-6 hover:bg-white/10 transition-all duration-300 shadow-lg"
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true, margin: "-50px" }}
                 whileHover={{ y: -5 }}
               >
                 <h3 className="text-xl font-bold text-accent mb-4">
@@ -489,17 +450,12 @@ const Portfolio = () => {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {skillList.map((skill, idx) => (
-                    <motion.span
+                    <span
                       key={idx}
-                      className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm border border-accent/20 hover:bg-accent/20 transition-colors cursor-default"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: idx * 0.05 }}
-                      viewport={{ once: true }}
-                      whileHover={{ scale: 1.05 }}
+                      className="bg-accent/20 text-white px-3 py-1 rounded-full text-sm border border-accent/30 hover:bg-accent/30 transition-colors cursor-default"
                     >
                       {skill}
-                    </motion.span>
+                    </span>
                   ))}
                 </div>
               </motion.div>
@@ -511,18 +467,51 @@ const Portfolio = () => {
       {/* Contact Section */}
       <section id="contact" className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
+          {/* Avatar */}
+          <motion.div
+            className="flex justify-center mb-8"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className="relative w-32 h-32 md:w-40 md:h-40"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-accent to-accent/70 rounded-full blur-md opacity-30 animate-pulse"></div>
+              <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-accent/20 shadow-2xl">
+                <Image
+                  src="/images/aslam.jpeg"
+                  alt="Mohammed Aslam - Software Engineer"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-transparent to-transparent hover:from-accent/10 hover:to-transparent transition-all duration-300"></div>
+              </div>
+              {/* Floating ring animation */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-2 border-accent/30"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              ></motion.div>
+            </motion.div>
+          </motion.div>
+
           <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-16 gradient-text"
+            className="text-3xl md:text-4xl font-bold mb-6 text-white"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
             Let&apos;s Connect
           </motion.h2>
 
           <motion.p
-            className="text-lg md:text-xl text-foreground/70 mb-12 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -541,7 +530,7 @@ const Portfolio = () => {
           >
             <motion.a
               href="tel:+91-8281794564"
-              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-muted/50 transition-all duration-300 group shadow-lg"
+              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
               whileHover={{ y: -5, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -551,14 +540,14 @@ const Portfolio = () => {
               >
                 <Phone size={24} className="text-accent" />
               </motion.div>
-              <span className="text-foreground/80 group-hover:text-accent transition-colors font-medium">
+              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
                 +91-8281794564
               </span>
             </motion.a>
 
             <motion.a
               href="mailto:aslamprpd@gmail.com"
-              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-muted/50 transition-all duration-300 group shadow-lg"
+              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
               whileHover={{ y: -5, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -568,7 +557,7 @@ const Portfolio = () => {
               >
                 <Mail size={24} className="text-accent" />
               </motion.div>
-              <span className="text-foreground/80 group-hover:text-accent transition-colors font-medium">
+              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
                 Email
               </span>
             </motion.a>
@@ -577,7 +566,7 @@ const Portfolio = () => {
               href="https://github.com/AslamSDM"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-muted/50 transition-all duration-300 group shadow-lg"
+              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
               whileHover={{ y: -5, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -587,7 +576,7 @@ const Portfolio = () => {
               >
                 <Github size={24} className="text-accent" />
               </motion.div>
-              <span className="text-foreground/80 group-hover:text-accent transition-colors font-medium">
+              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
                 GitHub
               </span>
             </motion.a>
@@ -596,7 +585,7 @@ const Portfolio = () => {
               href="https://linkedin.com/in/mohammed-aslam-saidummadath"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-muted/50 transition-all duration-300 group shadow-lg"
+              className="flex flex-col items-center gap-3 p-6 glass-effect rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
               whileHover={{ y: -5, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -606,7 +595,7 @@ const Portfolio = () => {
               >
                 <Linkedin size={24} className="text-accent" />
               </motion.div>
-              <span className="text-foreground/80 group-hover:text-accent transition-colors font-medium">
+              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
                 LinkedIn
               </span>
             </motion.a>
