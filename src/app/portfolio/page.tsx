@@ -215,7 +215,7 @@ const PortfolioPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground grain-texture noise-texture">
       {/* Header */}
-      <header className="sticky top-0 z-50 glass-effect border-b border-border">
+      <header className="sticky top-0 z-50  border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <motion.button
@@ -251,7 +251,7 @@ const PortfolioPage = () => {
                 className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
                   filter === category.id
                     ? "bg-foreground text-background"
-                    : "glass-effect hover:bg-muted/50"
+                    : " hover:bg-muted/50"
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -276,7 +276,7 @@ const PortfolioPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -50 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="glass-effect rounded-2xl overflow-hidden hover:bg-muted/50 transition-all duration-300 group"
+                  className=" rounded-2xl overflow-hidden hover:bg-muted/50 transition-all duration-300 group"
                   whileHover={{ y: -10 }}
                 >
                   {/* Video Section */}
@@ -436,7 +436,7 @@ const PortfolioPage = () => {
                 initial={{ opacity: 0, scale: 0.9, y: 50 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                className="glass-effect rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+                className=" rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Modal Header */}
