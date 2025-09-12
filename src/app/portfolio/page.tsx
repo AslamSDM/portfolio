@@ -29,7 +29,7 @@ interface Project {
   longDescription: string;
   tech: string[];
   features: string[];
-  videoUrl: string;
+  screenshotUrl: string;
   githubUrl?: string;
   liveUrl?: string;
   duration: string;
@@ -42,11 +42,21 @@ interface Project {
   }[];
 }
 
+interface TelegramBot {
+  id: string;
+  name: string;
+  username: string;
+  description: string;
+  features: string[];
+  tech: string[];
+  users: string;
+  chain?: string;
+}
+
 const PortfolioPage = () => {
   const router = useRouter();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [filter, setFilter] = useState("all");
-  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
 
   const projects: Project[] = [
     {
@@ -75,7 +85,7 @@ const PortfolioPage = () => {
         "Advanced risk management and liquidity pools",
         "Cross-platform gaming interface",
       ],
-      videoUrl: "/videos/litmex-demo.mp4",
+      screenshotUrl: "/images/litmex-screenshot.png",
       githubUrl: "https://github.com/AslamSDM/litmex-protocol",
       liveUrl: "https://litmexpresale.com",
       duration: "6 months",
@@ -115,7 +125,7 @@ const PortfolioPage = () => {
         "Decentralized game ownership and trading",
         "Retro gaming library with modern blockchain integration",
       ],
-      videoUrl: "/videos/shaboy-demo.mp4",
+      screenshotUrl: "/images/shaboy-screenshot.png",
       githubUrl: "https://github.com/AslamSDM/shaboy-platform",
       liveUrl: "https://shaboy.gaming",
       duration: "8 months",
@@ -155,7 +165,7 @@ const PortfolioPage = () => {
         "Multi-asset collateral support",
         "Automated liquidation mechanisms for risk management",
       ],
-      videoUrl: "/videos/jupyter-demo.mp4",
+      screenshotUrl: "/images/jupyter-screenshot.png",
       githubUrl: "https://github.com/AslamSDM/jupyter-lending",
       liveUrl: "https://jupyter.defi",
       duration: "5 months",
@@ -168,6 +178,111 @@ const PortfolioPage = () => {
         { label: "Loans Processed", value: "15K+" },
       ],
     },
+    {
+      id: "Spidey-Dapp",
+      title: "Landing Page Generation for Meme Coins",
+      category: "blockchain",
+      description:
+        "A  landing page generation platform for meme coins, enabling users to create and customize their own landing pages effortlessly.",
+      longDescription:
+        "Developed Spidey DApp as a comprehensive solution for meme coin projects to generate landing pages quickly. The platform allows users to choose from various templates, customize content, and deploy their landing pages with ease. Implemented a full-stack solution with modern frontend technologies and robust backend infrastructure including smart contracts, database management, and GraphQL APIs for efficient data querying.",
+      tech: [
+        "Next.js",
+        "Tailwind CSS",
+        "GraphQL",
+        "BNB Smart Chain",
+        "Claude 3",
+        "LangChain",
+        "Stable Diffusion",
+      ],
+      features: [
+        "Template-based landing page generation",
+        "AI-powered content creation using Claude 3",
+        "Customizable design elements and layouts",
+        "One-click deployment to IPFS",
+        "User-friendly interface for non-technical users",
+        "Media generation using Stable Diffusion",
+      ],
+      screenshotUrl: "/images/spidey-screenshot.png",
+      liveUrl: "https://spidey-dapp.vercel.app",
+      duration: "1 month",
+      year: "2024",
+      team: "Team project",
+      status: "completed",
+      metrics: [
+        { label: "Active Users", value: "1K+" },
+        { label: "Landing Pages Created", value: "1K+" },
+      ],
+    },
+  ];
+
+  const telegramBots: TelegramBot[] = [
+    {
+      id: "trutrendton",
+      name: "TruTrend TON",
+      username: "@TruTrendTON",
+      description:
+        "Real-time trending meme coin data and analytics on TON blockchain. Get instant access to the hottest meme coins, their trading volume, price movements, and market sentiment.",
+      features: [
+        "Real-time meme coin trending data",
+        "Price alerts and notifications",
+        "Market sentiment analysis",
+        "Volume and price movement tracking",
+        "Social media buzz monitoring",
+        "Portfolio tracking for TON meme coins",
+      ],
+      tech: ["Node.js", "Telegram Bot API", "TON API", "Redis", "PostgreSQL"],
+      users: "15K+",
+      chain: "TON",
+    },
+    {
+      id: "solana-alerts",
+      name: "Solana Price Alerts",
+      username: "@SolanaAlertsBot",
+      description:
+        "Advanced price alert system for Solana ecosystem tokens. Set custom alerts, track DeFi protocols, and never miss important price movements.",
+      features: [
+        "Custom price alerts for SOL and SPL tokens",
+        "DeFi protocol tracking and notifications",
+        "Whale wallet movement alerts",
+        "New token launch notifications",
+        "Portfolio performance summaries",
+        "Technical analysis indicators",
+      ],
+      tech: [
+        "Python",
+        "Telegram Bot API",
+        "Solana Web3.js",
+        "CoinGecko API",
+        "MongoDB",
+      ],
+      users: "8K+",
+      chain: "Solana",
+    },
+    {
+      id: "eth-gas-tracker",
+      name: "ETH Gas Tracker",
+      username: "@EthGasTrackerBot",
+      description:
+        "Monitor Ethereum gas prices in real-time. Get notified when gas prices drop to your preferred level for optimal transaction timing.",
+      features: [
+        "Real-time gas price monitoring",
+        "Custom gas price alerts",
+        "Network congestion analysis",
+        "Historical gas price charts",
+        "MEV protection alerts",
+        "Layer 2 bridge cost comparisons",
+      ],
+      tech: [
+        "TypeScript",
+        "Telegram Bot API",
+        "Ethers.js",
+        "The Graph",
+        "InfluxDB",
+      ],
+      users: "12K+",
+      chain: "Ethereum",
+    },
   ];
 
   const categories = [
@@ -175,6 +290,7 @@ const PortfolioPage = () => {
     { id: "blockchain", label: "Blockchain", icon: Shield },
     { id: "ai", label: "AI/ML", icon: Cpu },
     { id: "fullstack", label: "Full Stack", icon: Code2 },
+    { id: "bots", label: "Telegram Bots", icon: Smartphone },
   ];
 
   const filteredProjects =
@@ -182,9 +298,7 @@ const PortfolioPage = () => {
       ? projects
       : projects.filter((project) => project.category === filter);
 
-  const handleVideoPlay = (projectId: string) => {
-    setPlayingVideo(playingVideo === projectId ? null : projectId);
-  };
+  const filteredBots = filter === "bots" ? telegramBots : [];
 
   const getStatusColor = (status: Project["status"]) => {
     switch (status) {
@@ -213,34 +327,29 @@ const PortfolioPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground grain-texture noise-texture">
-      {/* Header */}
-      <header className="sticky top-0 z-50  border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <motion.button
-              onClick={() => router.back()}
-              className="flex items-center gap-2 text-accent hover:text-foreground transition-colors"
-              whileHover={{ x: -5 }}
-            >
-              <ArrowLeft size={20} />
-              Back to Home
-            </motion.button>
-            <h1 className="text-2xl md:text-3xl font-bold gradient-text">
-              Portfolio Projects
-            </h1>
-            <div className="w-20" /> {/* Spacer for centering */}
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-background text-foreground grain-texture noise-texture pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Title */}
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-4">
+            Portfolio Projects
+          </h1>
+          <p className="text-foreground/70 text-lg">
+            Explore my blockchain, AI, and full-stack development projects
+          </p>
+        </motion.div>
+
         {/* Category Filter */}
         <motion.div
           className="flex flex-wrap gap-4 mb-12 justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
           {categories.map((category) => {
             const Icon = category.icon;
@@ -279,31 +388,13 @@ const PortfolioPage = () => {
                   className=" rounded-2xl overflow-hidden hover:bg-muted/50 transition-all duration-300 group"
                   whileHover={{ y: -10 }}
                 >
-                  {/* Video Section */}
+                  {/* Screenshot Section */}
                   <div className="relative aspect-video bg-muted overflow-hidden">
-                    <video
+                    <img
+                      src={project.screenshotUrl}
+                      alt={`${project.title} screenshot`}
                       className="w-full h-full object-cover"
-                      poster={`/images/${project.id}-poster.jpg`}
-                      controls={playingVideo === project.id}
-                      muted
-                      loop
-                    >
-                      <source src={project.videoUrl} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-
-                    {playingVideo !== project.id && (
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <motion.button
-                          onClick={() => handleVideoPlay(project.id)}
-                          className="bg-white/20 backdrop-blur-sm rounded-full p-4 hover:bg-white/30 transition-colors"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          <Play size={32} className="text-white ml-1" />
-                        </motion.button>
-                      </div>
-                    )}
+                    />
 
                     {/* Status Badge */}
                     <div className="absolute top-4 left-4">
@@ -326,7 +417,7 @@ const PortfolioPage = () => {
 
                   {/* Content Section */}
                   <div className="p-8">
-                    {/* Header */}4
+                    {/* Header */}
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors mb-2">
@@ -421,6 +512,115 @@ const PortfolioPage = () => {
             })}
           </AnimatePresence>
         </motion.div>
+
+        {/* Telegram Bots Grid */}
+        {filter === "bots" && (
+          <motion.div className="grid lg:grid-cols-2 gap-8" layout>
+            <AnimatePresence>
+              {filteredBots.map((bot, index) => (
+                <motion.div
+                  key={bot.id}
+                  layout
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="glass-effect rounded-2xl overflow-hidden hover:bg-muted/50 transition-all duration-300 group"
+                  whileHover={{ y: -10 }}
+                >
+                  {/* Bot Header */}
+                  <div className="relative bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-8 border-b border-border">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors mb-2">
+                          {bot.name}
+                        </h3>
+                        <p className="text-accent font-medium text-lg">
+                          {bot.username}
+                        </p>
+                        {bot.chain && (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-accent/10 text-accent border border-accent/20 mt-2">
+                            {bot.chain} Chain
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-accent">
+                          {bot.users}
+                        </div>
+                        <div className="text-sm text-foreground/60">
+                          Active Users
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bot Icon */}
+                    <div className="absolute top-4 right-4">
+                      <div className="bg-blue-500/20 backdrop-blur-sm rounded-full p-3">
+                        <Smartphone size={24} className="text-blue-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bot Content */}
+                  <div className="p-8">
+                    {/* Description */}
+                    <p className="text-foreground/80 mb-6 leading-relaxed">
+                      {bot.description}
+                    </p>
+
+                    {/* Features */}
+                    <div className="mb-6">
+                      <h4 className="text-lg font-semibold text-foreground mb-3">
+                        Key Features
+                      </h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {bot.features.slice(0, 4).map((feature, idx) => (
+                          <div key={idx} className="flex items-start gap-3">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
+                            <span className="text-foreground/80 text-sm">
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-foreground/80 mb-3">
+                        Technologies Used
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {bot.tech.map((tech, idx) => (
+                          <span
+                            key={idx}
+                            className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-sm border border-blue-500/20"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Try Bot Button */}
+                    <motion.a
+                      href={`https://t.me/${bot.username.replace("@", "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Smartphone size={18} />
+                      Try Bot on Telegram
+                    </motion.a>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
 
         {/* Project Detail Modal */}
         <AnimatePresence>
