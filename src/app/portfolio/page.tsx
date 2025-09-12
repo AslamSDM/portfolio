@@ -172,11 +172,7 @@ const PortfolioPage = () => {
       year: "2024",
       team: "Solo project",
       status: "completed",
-      metrics: [
-        { label: "Total Value Locked", value: "$1.2M+" },
-        { label: "Active Lenders", value: "3K+" },
-        { label: "Loans Processed", value: "15K+" },
-      ],
+      metrics: [],
     },
     {
       id: "Spidey-Dapp",
@@ -234,54 +230,6 @@ const PortfolioPage = () => {
       tech: ["Node.js", "Telegram Bot API", "TON API", "Redis", "PostgreSQL"],
       users: "15K+",
       chain: "TON",
-    },
-    {
-      id: "solana-alerts",
-      name: "Solana Price Alerts",
-      username: "@SolanaAlertsBot",
-      description:
-        "Advanced price alert system for Solana ecosystem tokens. Set custom alerts, track DeFi protocols, and never miss important price movements.",
-      features: [
-        "Custom price alerts for SOL and SPL tokens",
-        "DeFi protocol tracking and notifications",
-        "Whale wallet movement alerts",
-        "New token launch notifications",
-        "Portfolio performance summaries",
-        "Technical analysis indicators",
-      ],
-      tech: [
-        "Python",
-        "Telegram Bot API",
-        "Solana Web3.js",
-        "CoinGecko API",
-        "MongoDB",
-      ],
-      users: "8K+",
-      chain: "Solana",
-    },
-    {
-      id: "eth-gas-tracker",
-      name: "ETH Gas Tracker",
-      username: "@EthGasTrackerBot",
-      description:
-        "Monitor Ethereum gas prices in real-time. Get notified when gas prices drop to your preferred level for optimal transaction timing.",
-      features: [
-        "Real-time gas price monitoring",
-        "Custom gas price alerts",
-        "Network congestion analysis",
-        "Historical gas price charts",
-        "MEV protection alerts",
-        "Layer 2 bridge cost comparisons",
-      ],
-      tech: [
-        "TypeScript",
-        "Telegram Bot API",
-        "Ethers.js",
-        "The Graph",
-        "InfluxDB",
-      ],
-      users: "12K+",
-      chain: "Ethereum",
     },
   ];
 

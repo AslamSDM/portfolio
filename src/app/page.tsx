@@ -77,32 +77,27 @@ const Portfolio = () => {
       tech: "Rust, Axum, Docker, Kubernetes",
       description:
         "Implemented a secure API service that handles crate uploads, validates builds in isolated Docker containers, and manages deployments to Kubernetes. Built authentication system with JWT tokens and protected routes for managing deployments of Cido maps.",
-      github: "#",
-      demo: "#",
     },
     {
       title: "Aegis AI",
       tech: "Next.js, Rust, Axum, GPT-4, Postgres, Redis",
       description:
         "Designed Rust backend for AI auditing system with parallelized queues for code analysis & PDF report generation. Architected audit workflows using GPT-4 for partial/full code reviews and Redis-based task management.",
-      github: "#",
-      demo: "#",
     },
     {
       title: "Jupiter Lending (Venus Fork)",
       tech: "Next.js, Solidity, React Charts, GraphQL",
       description:
         "Built DeFi lending DApp with Venus Protocol smart contracts and Next.js frontend for liquidity tracking. Developed GraphQL API for real-time market data & interactive React Charts for financial visualizations.",
-      github: "#",
-      demo: "#",
+      demo: "https://jupyter-omega.vercel.app/",
     },
     {
       title: "ETD DApp",
       tech: "Next.js, Solidity",
       description:
         "Deployed perpetual DEX using GMX V2 contracts enabling leveraged long/short positions. Optimized smart contract interactions for margin trading with 90% gas efficiency vs base implementation.",
-      github: "#",
-      demo: "#",
+      demo: "https://edt-bot-7prm-1tcwo4iys-edtonchain.vercel.app/",
+      github: "https://github.com/AslamSDM/jupyter",
     },
   ];
 
@@ -280,22 +275,26 @@ const Portfolio = () => {
                     {project.title}
                   </h3>
                   <div className="flex gap-2">
-                    <motion.a
-                      href={project.github}
-                      className="text-accent hover:text-white transition-colors"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Github size={20} />
-                    </motion.a>
-                    <motion.a
-                      href={project.demo}
-                      className="text-accent hover:text-white transition-colors"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <ExternalLink size={20} />
-                    </motion.a>
+                    {project?.github && (
+                      <motion.a
+                        href={project?.github}
+                        className="text-accent hover:text-white transition-colors"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Github size={20} />
+                      </motion.a>
+                    )}
+                    {project?.demo && (
+                      <motion.a
+                        href={project.demo}
+                        className="text-accent hover:text-white transition-colors"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <ExternalLink size={20} />
+                      </motion.a>
+                    )}
                   </div>
                 </div>
                 <p className="text-accent text-sm mb-4 font-medium">
