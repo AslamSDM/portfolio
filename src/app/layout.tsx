@@ -39,6 +39,42 @@ export const metadata: Metadata = {
       },
     ],
   },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://www.yourwebsite.com",
+    title: "Mohammed Aslam S - Software Engineer | Blockchain & AI Specialist",
+    description:
+      "Innovative Software Engineer specializing in Blockchain, AI, and Full-Stack Development. Building cutting-edge solutions with React, Python, and Web3 technologies.",
+    siteName: "Mohammed Aslam S Portfolio",
+    images: [
+      {
+        url: "https://i.ibb.co/m5zfkT1Q/preview-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Mohammed Aslam S - Portfolio Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mohammed Aslam S - Software Engineer | Blockchain & AI Specialist",
+    description:
+      "Innovative Software Engineer specializing in Blockchain, AI, and Full-Stack Development. Building cutting-edge solutions with React, Python, and Web3 technologies.",
+    images: ["https://i.ibb.co/m5zfkT1Q/preview-image.jpg"],
+    creator: "@yourtwitterhandle", // Add your Twitter handle here
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 export default function RootLayout({
   children,
