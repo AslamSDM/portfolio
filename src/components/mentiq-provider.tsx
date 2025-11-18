@@ -11,6 +11,7 @@ import {
 // Main Mentiq Provider
 export const MentiqProvider = ({ children }: { children: ReactNode }) => {
   const config = {
+    endpoint: "https://65.109.6.92",
     apiKey: process.env.NEXT_PUBLIC_MENTIQ_API_KEY || "",
     projectId: process.env.NEXT_PUBLIC_MENTIQ_PROJECT_ID || "",
     enableHeatmapTracking: true,
