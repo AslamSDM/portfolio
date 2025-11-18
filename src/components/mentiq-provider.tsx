@@ -16,10 +16,11 @@ export function MentiqProvider({ children }: MentiqProviderProps) {
     // Initialize Mentiq Analytics
     // Replace with your actual Mentiq project ID and API key
     Mentiq.init({
+      endpoint: "http://65.109.6.92",
       apiKey: process.env.NEXT_PUBLIC_MENTIQ_API_KEY || "your-api-key",
       projectId: process.env.NEXT_PUBLIC_MENTIQ_PROJECT_ID || "your-project-id",
       debug: process.env.NODE_ENV === "development",
-      enableAutoPageTracking: false, // We'll track manually for better control
+      enableAutoPageTracking: true,
       enableHeatmapTracking: true,
       enableSessionRecording: true,
       enableErrorTracking: true,
