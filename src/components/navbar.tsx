@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, X, Download, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { trackButtonClick, trackDownload } from "./mentiq-provider";
 
 interface NavbarProps {
   scrollY?: number;
@@ -30,7 +29,6 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const scrollToSection = (sectionId: string) => {
     // Track navigation
-    trackButtonClick("navigation", { section: sectionId, from: pathname });
 
     if (sectionId === "portfolio") {
       router.push("/portfolio");
@@ -139,11 +137,6 @@ const Navbar: React.FC<NavbarProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
-                trackDownload("Mohammed_Aslam_CV.pdf", "pdf");
-                trackButtonClick("download_cv", {
-                  location: "navbar",
-                  page: pathname,
-                });
                 window.open("/MoMohammed_Aslam_CV.pdf", "_blank");
               }}
             >
@@ -226,11 +219,6 @@ const Navbar: React.FC<NavbarProps> = ({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
-                    trackDownload("Mohammed_Aslam_CV.pdf", "pdf");
-                    trackButtonClick("download_cv", {
-                      location: "mobile_menu",
-                      page: pathname,
-                    });
                     window.open("/MoMohammed_Aslam_CV.pdf", "_blank");
                     setIsMenuOpen(false);
                   }}

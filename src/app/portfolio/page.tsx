@@ -14,11 +14,6 @@ import {
   X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  trackProjectView,
-  trackButtonClick,
-  trackLinkClick,
-} from "@/components/mentiq-provider";
 
 interface Project {
   id: string;
@@ -304,10 +299,6 @@ const PortfolioPage = () => {
                 key={category.id}
                 onClick={() => {
                   setFilter(category.id);
-                  trackButtonClick("portfolio_filter", {
-                    category: category.id,
-                    label: category.label,
-                  });
                 }}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
                   filter === category.id
@@ -397,13 +388,7 @@ const PortfolioPage = () => {
                             className="p-2 bg-accent/10 rounded-full hover:bg-accent/20 transition-colors"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => {
-                              trackLinkClick(
-                                project.githubUrl || "",
-                                `${project.title} - GitHub`
-                              );
-                              trackProjectView(project.title, project.category);
-                            }}
+                            onClick={() => {}}
                           >
                             <Github size={20} className="text-accent" />
                           </motion.a>
@@ -416,13 +401,6 @@ const PortfolioPage = () => {
                             className="p-2 bg-accent/10 rounded-full hover:bg-accent/20 transition-colors"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => {
-                              trackLinkClick(
-                                project.liveUrl || "",
-                                `${project.title} - Live Demo`
-                              );
-                              trackProjectView(project.title, project.category);
-                            }}
                           >
                             <ExternalLink size={20} className="text-accent" />
                           </motion.a>
@@ -578,17 +556,6 @@ const PortfolioPage = () => {
                       className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        trackLinkClick(
-                          `https://t.me/${bot.username.replace("@", "")}`,
-                          `${bot.name} - Telegram Bot`
-                        );
-                        trackProjectView(bot.name, "telegram-bot");
-                        trackButtonClick("try_telegram_bot", {
-                          botName: bot.name,
-                          username: bot.username,
-                        });
-                      }}
                     >
                       <Smartphone size={18} />
                       Try Bot on Telegram

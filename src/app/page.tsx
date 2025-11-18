@@ -14,7 +14,9 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 // Dynamically import Spline to avoid SSR issues
-const Spline = React.lazy(() => import("@splinetool/react-spline"));
+const Spline = React.lazy(() =>
+  import("@splinetool/react-spline").then((mod) => ({ default: mod.default }))
+);
 
 const Portfolio = () => {
   const [mounted, setMounted] = useState(false);
