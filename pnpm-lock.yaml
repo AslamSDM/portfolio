@@ -18,8 +18,8 @@ importers:
         specifier: ^0.525.0
         version: 0.525.0(react@19.1.0)
       mentiq-sdk:
-        specifier: ^1.0.2
-        version: 1.0.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^1.0.3
+        version: 1.0.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rrweb@2.0.0-alpha.4)
       next:
         specifier: 15.4.3
         version: 15.4.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1427,11 +1427,12 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mentiq-sdk@1.0.2:
-    resolution: {integrity: sha512-PIDqR+qUcwoRTq6amB6V5pJeUoWrxO1GdC+YiUx3MFwABi1mHlCZCBd1+D02Uj2AS1BCSzGsQNfyefRn/i9pUw==}
+  mentiq-sdk@1.0.3:
+    resolution: {integrity: sha512-ofhFMiSif4ldXy3BpnPCnH+Fxd4kv/b+GGzewz90MKabl1XnnIM5P8fKzKunSG3UK/9EcGYI7IW3RujlQ/uo4g==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
+      rrweb: '>=2.0.0-alpha.4'
 
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -3366,7 +3367,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mentiq-sdk@1.0.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  mentiq-sdk@1.0.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rrweb@2.0.0-alpha.4):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)

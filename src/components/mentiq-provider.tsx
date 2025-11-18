@@ -1,31 +1,12 @@
 "use client";
 
-import React, { useEffect, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import {
   MentiqAnalyticsProvider,
   useAnalytics as useMentiqAnalytics,
 } from "mentiq-sdk";
-import { usePathname, useSearchParams } from "next/navigation";
 
 // Custom hook for page views
-const usePageViews = () => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { page } = useMentiqAnalytics();
-
-  useEffect(() => {
-    const url = `${pathname}${
-      searchParams.toString() ? `?${searchParams.toString()}` : ""
-    }`;
-    page({ path: url });
-  }, [pathname, searchParams, page]);
-};
-
-// PageViewTracker component
-const PageViewTracker = () => {
-  usePageViews();
-  return null;
-};
 
 // Main Mentiq Provider
 export const MentiqProvider = ({ children }: { children: ReactNode }) => {
@@ -48,7 +29,6 @@ export const MentiqProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <MentiqAnalyticsProvider config={config}>
-      <PageViewTracker />
       {children}
     </MentiqAnalyticsProvider>
   );
