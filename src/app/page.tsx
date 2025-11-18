@@ -1,7 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import {
   Mail,
   Phone,
@@ -141,8 +140,19 @@ const Portfolio = () => {
       >
         {/* Spline 3D Background */}
         <div className="spline-container bg-black">
-          {/* @ts-ignore - Spline component props */}
-          <Spline scene="https://prod.spline.design/VUs1kl9EKK-YhweW/scene.splinecode" />
+          {mounted && (
+            <Suspense
+              fallback={
+                <div className="absolute inset-0 bg-black flex items-center justify-center">
+                  <div className="text-accent animate-pulse">
+                    Loading 3D Scene...
+                  </div>
+                </div>
+              }
+            >
+              <Spline scene="https://prod.spline.design/VUs1kl9EKK-YhweW/scene.splinecode" />
+            </Suspense>
+          )}
         </div>
 
         {/* Content Overlay */}
