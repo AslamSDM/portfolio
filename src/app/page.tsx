@@ -1,38 +1,28 @@
 "use client";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {
   Mail,
   Phone,
   Github,
   Linkedin,
   ExternalLink,
-  Download,
   Code,
   Briefcase,
-  X,
-  Menu,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import Navbar from "../components/navbar";
 
 // Dynamically import Spline to avoid SSR issues
 const Spline = React.lazy(() => import("@splinetool/react-spline"));
 
 const Portfolio = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
   const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const experiences = [
@@ -136,7 +126,6 @@ const Portfolio = () => {
       return;
     }
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-    setIsMenuOpen(false);
   };
 
   if (!mounted) return null;
@@ -152,13 +141,8 @@ const Portfolio = () => {
       >
         {/* Spline 3D Background */}
         <div className="spline-container bg-black">
-          <Suspense
-            fallback={
-              <div className="absolute inset-0 bg-black animate-pulse" />
-            }
-          >
-            <Spline scene="https://prod.spline.design/VUs1kl9EKK-YhweW/scene.splinecode" />
-          </Suspense>
+          {/* @ts-ignore - Spline component props */}
+          <Spline scene="https://prod.spline.design/VUs1kl9EKK-YhweW/scene.splinecode" />
         </div>
 
         {/* Content Overlay */}

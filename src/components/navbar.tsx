@@ -1,13 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, X, Download, Code, Mail, Home } from "lucide-react";
+import { Menu, X, Download, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  trackButtonClick,
-  trackDownload,
-  trackLinkClick,
-} from "./mentiq-provider";
+import { trackButtonClick, trackDownload } from "./mentiq-provider";
 
 interface NavbarProps {
   scrollY?: number;

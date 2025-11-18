@@ -34,6 +34,7 @@ export function MentiqProvider({ children }: MentiqProviderProps) {
       path: pathname,
       referrer: document.referrer,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -115,7 +116,7 @@ export { Mentiq };
 // Utility functions for common tracking events
 export const trackButtonClick = (
   buttonName: string,
-  properties?: Record<string, any>
+  properties?: Record<string, string | number | boolean>
 ) => {
   Mentiq.track("button_click", {
     buttonName,
@@ -132,7 +133,7 @@ export const trackLinkClick = (linkUrl: string, linkText: string) => {
 
 export const trackFormSubmit = (
   formName: string,
-  properties?: Record<string, any>
+  properties?: Record<string, string | number | boolean>
 ) => {
   Mentiq.track("form_submit", {
     formName,
@@ -182,6 +183,9 @@ export const trackError = (errorType: string, errorMessage: string) => {
   });
 };
 
-export const identifyUser = (userId: string, traits?: Record<string, any>) => {
+export const identifyUser = (
+  userId: string,
+  traits?: Record<string, string | number | boolean>
+) => {
   Mentiq.identify(userId, traits);
 };

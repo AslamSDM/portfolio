@@ -1,17 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import {
-  ArrowLeft,
   Github,
   ExternalLink,
-  Play,
-  Pause,
   Calendar,
   Users,
-  TrendingUp,
-  Database,
   Shield,
-  Zap,
   Globe,
   Code2,
   Smartphone,
@@ -19,7 +14,6 @@ import {
   X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
 import {
   trackProjectView,
   trackButtonClick,
@@ -59,7 +53,6 @@ interface TelegramBot {
 }
 
 const PortfolioPage = () => {
-  const router = useRouter();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [filter, setFilter] = useState("all");
 
@@ -349,10 +342,11 @@ const PortfolioPage = () => {
                 >
                   {/* Screenshot Section */}
                   <div className="relative aspect-video bg-muted overflow-hidden">
-                    <img
+                    <Image
                       src={project.screenshotUrl}
                       alt={`${project.title} screenshot`}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
 
                     {/* Status Badge */}
