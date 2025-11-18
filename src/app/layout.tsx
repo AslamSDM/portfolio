@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
+import { MentiqProvider } from "../components/mentiq-provider";
 import Navbar from "@/components/navbar";
 
 const geistSans = Geist({
@@ -87,8 +88,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider defaultTheme="dark" enableSystem>
-          <Navbar />
-          {children}
+          <MentiqProvider>
+            <Navbar />
+            {children}
+          </MentiqProvider>
         </ThemeProvider>
       </body>
     </html>
