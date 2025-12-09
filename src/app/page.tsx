@@ -64,16 +64,18 @@ const Portfolio = () => {
 
   const projects = [
     {
-      title: "Cido API Service",
-      tech: "Rust, Axum, Docker, Kubernetes",
+      title: "MentIQ - SaaS Analytics Platform",
+      tech: "Go, Gin, Next.js 16, PostgreSQL, TimescaleDB, TypeScript",
       description:
-        "Implemented a secure API service that handles crate uploads, validates builds in isolated Docker containers, and manages deployments to Kubernetes. Built authentication system with JWT tokens and protected routes for managing deployments of Cido maps.",
+        "Built a full-stack analytics platform for SaaS companies with Go/Gin backend and Next.js dashboard. Features real-time user behavior tracking, session recordings, A/B testing, churn prediction with AI/ML, and TypeScript SDK for easy integration.",
+      github: "https://github.com/AslamSDM/mentiq",
     },
     {
-      title: "Aegis AI",
-      tech: "Next.js, Rust, Axum, GPT-4, Postgres, Redis",
+      title: "ReelsFly - AI Video Generation Platform",
+      tech: "Next.js 15, React 19, TypeScript, Replicate API, Radix UI",
       description:
-        "Designed Rust backend for AI auditing system with parallelized queues for code analysis & PDF report generation. Architected audit workflows using GPT-4 for partial/full code reviews and Redis-based task management.",
+        "Developed a comprehensive AI video generation platform featuring 26+ video models with real-time progress streaming and dynamic parameters. Built with Next.js 15 and Replicate API for stunning AI-generated videos with live progress updates.",
+      github: "https://github.com/AslamSDM/reelsfly",
     },
     {
       title: "Jupiter Lending (Venus Fork)",
@@ -83,12 +85,11 @@ const Portfolio = () => {
       demo: "https://jupyter-omega.vercel.app/",
     },
     {
-      title: "ETD DApp",
-      tech: "Next.js, Solidity",
+      title: "PredictX - Decentralized Prediction Market",
+      tech: "Next.js 15, React 19, Solidity, Viem, Socket.io, Prisma",
       description:
-        "Deployed perpetual DEX using GMX V2 contracts enabling leveraged long/short positions. Optimized smart contract interactions for margin trading with 90% gas efficiency vs base implementation.",
-      demo: "https://edt-bot-7prm-1tcwo4iys-edtonchain.vercel.app/",
-      github: "https://github.com/AslamSDM/jupyter",
+        "Built decentralized prediction market platform with real-time chat and AI-powered contract validation. Features wallet-based auth, Blockscout integration, and Socket.io for real-time communication on Ethereum.",
+      github: "https://github.com/AslamSDM/predictx",
     },
   ];
 
@@ -254,7 +255,7 @@ const Portfolio = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-4 bg-muted/30">
+      {/* <section id="projects" className="py-20 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
@@ -315,7 +316,7 @@ const Portfolio = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Skills Section */}
       <section id="skills" className="py-20 px-4 bg-muted/20">

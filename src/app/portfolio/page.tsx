@@ -36,16 +36,6 @@ interface Project {
   }[];
 }
 
-interface TelegramBot {
-  id: string;
-  name: string;
-  username: string;
-  description: string;
-  features: string[];
-  tech: string[];
-  users: string;
-  chain?: string;
-}
 
 const PortfolioPage = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -53,9 +43,210 @@ const PortfolioPage = () => {
 
   const projects: Project[] = [
     {
+      id: "mentiq",
+      title: "MentIQ - SaaS Analytics & Retention Platform",
+      category: "fullstack",
+      description:
+        "A comprehensive analytics and retention platform for SaaS products, featuring user behavior tracking, session recordings, A/B testing, and churn prediction.",
+      longDescription:
+        "Built MentIQ as a full-stack analytics platform to help SaaS companies track user engagement, reduce churn, and boost retention. The platform consists of a Go/Gin backend with PostgreSQL/TimescaleDB, a Next.js 16 dashboard with App Router, and a TypeScript SDK for React/Next.js applications. Features include real-time analytics, session replay, funnel analysis, cohort tracking, and AI-powered churn prediction. Integrated with Stripe for revenue tracking and AWS/R2 for session recording storage.",
+      tech: [
+        "Go",
+        "Gin",
+        "Next.js 16",
+        "TypeScript",
+        "PostgreSQL",
+        "TimescaleDB",
+        "React",
+        "NextAuth.js",
+        "Stripe",
+        "AWS/R2",
+      ],
+      features: [
+        "Real-time user behavior and engagement tracking",
+        "Session recordings and replay functionality",
+        "A/B testing and experimentation framework",
+        "Churn prediction with AI/ML models",
+        "Cohort analysis and retention metrics",
+        "Revenue analytics with Stripe integration",
+        "TypeScript SDK for easy integration",
+        "Dashboard with modern React UI",
+      ],
+      screenshotUrl: "/images/mentiq-screenshot.png",
+      githubUrl: "https://github.com/AslamSDM/mentiq",
+      duration: "6 months",
+      year: "2024",
+      team: "Solo project",
+      status: "completed",
+      metrics: [
+        { label: "Components", value: "Backend + Dashboard + SDK" },
+        { label: "Database", value: "PostgreSQL + TimescaleDB" },
+      ],
+    },
+    {
+      id: "reelsfly",
+      title: "ReelsFly - AI Video Generation Platform",
+      category: "fullstack",
+      description:
+        "A comprehensive AI video generation platform featuring 26+ video models with real-time progress streaming, dynamic parameters, and enhanced model information.",
+      longDescription:
+        "Developed ReelsFly as a cutting-edge AI video generation platform using Next.js 15 and Replicate's AI models. The platform seamlessly fuses creativity and technology to deliver stunning AI-generated videos with real-time progress updates. Features include 26+ curated video models (Luma Dream Machine, RunwayML Gen-3, Stable Video Diffusion, etc.), dynamic parameter generation based on OpenAPI schemas, live pricing information, example galleries, and Server-Sent Events for real-time progress streaming. Built with React 19, TypeScript, Radix UI for accessibility, and optimized with static model caching and progressive loading.",
+      tech: [
+        "Next.js 15",
+        "React 19",
+        "TypeScript",
+        "Replicate API",
+        "Radix UI",
+        "Tailwind CSS",
+        "Server-Sent Events",
+        "OpenAPI",
+      ],
+      features: [
+        "26+ AI video generation models including Luma Dream Machine and RunwayML Gen-3",
+        "Real-time progress streaming with Server-Sent Events",
+        "Dynamic parameter forms auto-generated from model schemas",
+        "Live pricing information and usage statistics",
+        "Example galleries with sample inputs and outputs",
+        "Rich model cards with comprehensive documentation",
+        "Background video processing with progress visualization",
+        "Responsive UI with Radix UI components",
+      ],
+      screenshotUrl: "/images/reelsfly-screenshot.png",
+      githubUrl: "https://github.com/AslamSDM/reelsfly",
+      duration: "2 months",
+      year: "2024",
+      team: "Solo project",
+      status: "completed",
+      metrics: [
+        { label: "AI Models", value: "26+" },
+        { label: "Framework", value: "Next.js 15 + React 19" },
+      ],
+    },
+    {
+      id: "predictx",
+      title: "PredictX - Decentralized Prediction Market",
+      category: "fullstack",
+      description:
+        "A decentralized prediction market platform with real-time chat, blockchain integration, and AI-powered contract validation on Ethereum.",
+      longDescription:
+        "Developed PredictX as a comprehensive decentralized prediction market platform built with Next.js 15. The platform enables users to create, bet on, and discuss predictions with full blockchain transparency through Blockscout integration. Features real-time chat rooms for each prediction, wallet-based authentication with Privy, and AI-powered contract validation. Built with React 19, Zustand state management, Socket.io for real-time communication, and Viem for blockchain interactions. Includes smart contracts deployed on Sepolia testnet with extensible multi-chain architecture.",
+      tech: [
+        "Next.js 15",
+        "React 19",
+        "TypeScript",
+        "Solidity",
+        "Viem",
+        "Zustand",
+        "Socket.io",
+        "PostgreSQL",
+        "Prisma",
+        "Tailwind CSS",
+        "Framer Motion",
+      ],
+      features: [
+        "Create and bet on predictions with dynamic odds",
+        "Real-time chat rooms for each prediction market",
+        "Wallet-based authentication with Privy",
+        "AI-powered contract validation and safety checks",
+        "Blockscout integration for transaction transparency",
+        "Infinite scroll discovery feed with preloading",
+        "Mobile-responsive design",
+        "Multi-chain support architecture",
+      ],
+      screenshotUrl: "/images/predictx-screenshot.png",
+      githubUrl: "https://github.com/AslamSDM/predictx",
+      duration: "4 months",
+      year: "2024",
+      team: "Solo project",
+      status: "completed",
+      metrics: [
+        { label: "Network", value: "Sepolia Testnet" },
+        { label: "Tech Stack", value: "Full-Stack + Blockchain" },
+      ],
+    },
+    {
+      id: "margraf",
+      title: "Margraf - Financial Dynamic Knowledge Graph",
+      category: "ai",
+      description:
+        "A sophisticated Financial Dynamic Knowledge Graph modeling the global economy with real-time updates using AI, web scraping, and sentiment analysis.",
+      longDescription:
+        "Built Margraf as an innovative prototype that models the global economy as a graph of Nations, Industries, Corporations, and Raw Materials, linked by trade and supply chain relationships. The system uses recursive RAG (Retrieval-Augmented Generation) to discover entities via Wikipedia and search engines, monitors RSS feeds for breaking news, and analyzes social media sentiment using LLMs. Features a real-time WebSocket dashboard for visualizing economic shocks propagating through the graph. Built with Go, featuring thread-safe concurrency with sync.RWMutex, Google Gemini API for AI reasoning, and automated market data updates from Yahoo Finance.",
+      tech: [
+        "Go",
+        "Google Gemini API",
+        "WebSocket",
+        "Docker",
+        "Kubernetes",
+        "PostgreSQL",
+        "RAG",
+        "Web Scraping",
+        "Graph Algorithms",
+      ],
+      features: [
+        "Dynamic knowledge graph of global economic entities",
+        "Recursive RAG-based entity discovery from Wikipedia",
+        "Real-time news monitoring and economic shock propagation",
+        "Social media sentiment analysis with LLMs",
+        "WebSocket dashboard for live graph visualization",
+        "Automated stock price updates from Yahoo Finance",
+        "Thread-safe concurrent processing",
+        "Economic simulation engine with shock propagation",
+      ],
+      screenshotUrl: "/images/margraf-screenshot.png",
+      githubUrl: "https://github.com/AslamSDM/margraf",
+      duration: "3 months",
+      year: "2024",
+      team: "Solo project",
+      status: "completed",
+      metrics: [
+        { label: "Type", value: "AI + Knowledge Graph" },
+        { label: "LLM", value: "Google Gemini" },
+      ],
+    },
+    {
+      id: "axton-protocol",
+      title: "Axton Protocol - Anonymized OTC Platform",
+      category: "fullstack",
+      description:
+        "A zero-slippage Over-The-Counter trading platform for blockchain assets with anonymized transactions, real-time yield generation, and a unified DeFi ecosystem.",
+      longDescription:
+        "Developed Axton Protocol as a comprehensive OTC trading platform that enables zero-slippage deals for blockchain assets. The platform features a modern Next.js frontend with 7 different animated backgrounds (Orb, GridScan, Beams, Silk, Dither, GradientBlinds, Iridescence), custom clip-path components for unique UI design, and advanced Framer Motion animations. Built with dual scroll flows (vertical and horizontal parallax), WebSocket integration for real-time updates, and a Node.js backend. The platform emphasizes transparency, security, and community-first values while providing real yield to users through revenue-powered mechanisms.",
+      tech: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Node.js",
+        "WebSocket",
+        "Framer Motion",
+        "Tailwind CSS",
+        "Zustand",
+      ],
+      features: [
+        "Zero-slippage OTC trading for blockchain assets",
+        "Anonymized transactions for privacy",
+        "Real yield generation for users",
+        "7 unique animated backgrounds with custom effects",
+        "Custom clip-path components for modern UI",
+        "Horizontal and vertical scroll experiences",
+        "Real-time WebSocket updates",
+        "Revenue-powered unified DeFi ecosystem",
+      ],
+      screenshotUrl: "/images/axton-screenshot.png",
+      githubUrl: "https://github.com/AslamSDM/axton",
+      duration: "3 months",
+      year: "2024",
+      team: "Solo project",
+      status: "completed",
+      metrics: [
+        { label: "Volume", value: "$50M+" },
+        { label: "Users", value: "25K+" },
+      ],
+    },
+    {
       id: "litmex-protocol",
       title: "LITMEX Protocol - Presale Platform",
-      category: "blockchain",
+      category: "fullstack",
       description:
         "A Solana-based DeFi protocol combining decentralized prediction markets, mini games, and autonomous AI betting agents for intelligent crypto wagering.",
       longDescription:
@@ -95,7 +286,7 @@ const PortfolioPage = () => {
     {
       id: "shaboy-gaming",
       title: "Shaboy - Decentralized Retro Gaming Platform",
-      category: "blockchain",
+      category: "fullstack",
       description:
         "A decentralized retro gaming platform where developers can mint games as NFTs and trade them in the built-in marketplace, with AI-powered game suggestions.",
       longDescription:
@@ -203,150 +394,6 @@ const PortfolioPage = () => {
         { label: "Landing Pages Created", value: "1K+" },
       ],
     },
-    {
-      id: "mentiq",
-      title: "MentIQ - SaaS Analytics & Retention Platform",
-      category: "fullstack",
-      description:
-        "A comprehensive analytics and retention platform for SaaS products, featuring user behavior tracking, session recordings, A/B testing, and churn prediction.",
-      longDescription:
-        "Built MentIQ as a full-stack analytics platform to help SaaS companies track user engagement, reduce churn, and boost retention. The platform consists of a Go/Gin backend with PostgreSQL/TimescaleDB, a Next.js 16 dashboard with App Router, and a TypeScript SDK for React/Next.js applications. Features include real-time analytics, session replay, funnel analysis, cohort tracking, and AI-powered churn prediction. Integrated with Stripe for revenue tracking and AWS/R2 for session recording storage.",
-      tech: [
-        "Go",
-        "Gin",
-        "Next.js 16",
-        "TypeScript",
-        "PostgreSQL",
-        "TimescaleDB",
-        "React",
-        "NextAuth.js",
-        "Stripe",
-        "AWS/R2",
-      ],
-      features: [
-        "Real-time user behavior and engagement tracking",
-        "Session recordings and replay functionality",
-        "A/B testing and experimentation framework",
-        "Churn prediction with AI/ML models",
-        "Cohort analysis and retention metrics",
-        "Revenue analytics with Stripe integration",
-        "TypeScript SDK for easy integration",
-        "Dashboard with modern React UI",
-      ],
-      screenshotUrl: "/images/mentiq-screenshot.png",
-      githubUrl: "https://github.com/AslamSDM/mentiq",
-      duration: "6 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Components", value: "Backend + Dashboard + SDK" },
-        { label: "Database", value: "PostgreSQL + TimescaleDB" },
-      ],
-    },
-    {
-      id: "predictx",
-      title: "PredictX - Decentralized Prediction Market",
-      category: "blockchain",
-      description:
-        "A decentralized prediction market platform with real-time chat, blockchain integration, and AI-powered contract validation on Ethereum.",
-      longDescription:
-        "Developed PredictX as a comprehensive decentralized prediction market platform built with Next.js 15. The platform enables users to create, bet on, and discuss predictions with full blockchain transparency through Blockscout integration. Features real-time chat rooms for each prediction, wallet-based authentication with Privy, and AI-powered contract validation. Built with React 19, Zustand state management, Socket.io for real-time communication, and Viem for blockchain interactions. Includes smart contracts deployed on Sepolia testnet with extensible multi-chain architecture.",
-      tech: [
-        "Next.js 15",
-        "React 19",
-        "TypeScript",
-        "Solidity",
-        "Viem",
-        "Zustand",
-        "Socket.io",
-        "PostgreSQL",
-        "Prisma",
-        "Tailwind CSS",
-        "Framer Motion",
-      ],
-      features: [
-        "Create and bet on predictions with dynamic odds",
-        "Real-time chat rooms for each prediction market",
-        "Wallet-based authentication with Privy",
-        "AI-powered contract validation and safety checks",
-        "Blockscout integration for transaction transparency",
-        "Infinite scroll discovery feed with preloading",
-        "Mobile-responsive design",
-        "Multi-chain support architecture",
-      ],
-      screenshotUrl: "/images/predictx-screenshot.png",
-      githubUrl: "https://github.com/AslamSDM/predictx",
-      duration: "4 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Network", value: "Sepolia Testnet" },
-        { label: "Tech Stack", value: "Full-Stack + Blockchain" },
-      ],
-    },
-    {
-      id: "margraf",
-      title: "Margraf - Financial Dynamic Knowledge Graph",
-      category: "ai",
-      description:
-        "A sophisticated Financial Dynamic Knowledge Graph modeling the global economy with real-time updates using AI, web scraping, and sentiment analysis.",
-      longDescription:
-        "Built Margraf as an innovative prototype that models the global economy as a graph of Nations, Industries, Corporations, and Raw Materials, linked by trade and supply chain relationships. The system uses recursive RAG (Retrieval-Augmented Generation) to discover entities via Wikipedia and search engines, monitors RSS feeds for breaking news, and analyzes social media sentiment using LLMs. Features a real-time WebSocket dashboard for visualizing economic shocks propagating through the graph. Built with Go, featuring thread-safe concurrency with sync.RWMutex, Google Gemini API for AI reasoning, and automated market data updates from Yahoo Finance.",
-      tech: [
-        "Go",
-        "Google Gemini API",
-        "WebSocket",
-        "Docker",
-        "Kubernetes",
-        "PostgreSQL",
-        "RAG",
-        "Web Scraping",
-        "Graph Algorithms",
-      ],
-      features: [
-        "Dynamic knowledge graph of global economic entities",
-        "Recursive RAG-based entity discovery from Wikipedia",
-        "Real-time news monitoring and economic shock propagation",
-        "Social media sentiment analysis with LLMs",
-        "WebSocket dashboard for live graph visualization",
-        "Automated stock price updates from Yahoo Finance",
-        "Thread-safe concurrent processing",
-        "Economic simulation engine with shock propagation",
-      ],
-      screenshotUrl: "/images/margraf-screenshot.png",
-      githubUrl: "https://github.com/AslamSDM/margraf",
-      duration: "3 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Type", value: "AI + Knowledge Graph" },
-        { label: "LLM", value: "Google Gemini" },
-      ],
-    },
-  ];
-
-  const telegramBots: TelegramBot[] = [
-    {
-      id: "trutrendton",
-      name: "TruTrend TON",
-      username: "@TruTrendTON",
-      description:
-        "Real-time trending meme coin data and analytics on TON blockchain. Get instant access to the hottest meme coins, their trading volume, price movements, and market sentiment.",
-      features: [
-        "Real-time meme coin trending data",
-        "Price alerts and notifications",
-        "Market sentiment analysis",
-        "Volume and price movement tracking",
-        "Social media buzz monitoring",
-        "Portfolio tracking for TON meme coins",
-      ],
-      tech: ["Node.js", "Telegram Bot API", "TON API", "Redis", "PostgreSQL"],
-      users: "15K+",
-      chain: "TON",
-    },
   ];
 
   const categories = [
@@ -354,15 +401,12 @@ const PortfolioPage = () => {
     { id: "blockchain", label: "Blockchain", icon: Shield },
     { id: "ai", label: "AI/ML", icon: Cpu },
     { id: "fullstack", label: "Full Stack", icon: Code2 },
-    { id: "bots", label: "Telegram Bots", icon: Smartphone },
   ];
 
   const filteredProjects =
     filter === "all"
       ? projects
       : projects.filter((project) => project.category === filter);
-
-  const filteredBots = filter === "bots" ? telegramBots : [];
 
   const getStatusColor = (status: Project["status"]) => {
     switch (status) {
