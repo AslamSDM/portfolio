@@ -166,11 +166,23 @@ const Portfolio = () => {
         >
           <div className="flex flex-col items-center">
             <motion.div
-              className="flex justify-center px-4"
+              className="flex justify-center gap-4 px-4 flex-wrap"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
+              <motion.button
+                onClick={() => scrollToSection("portfolio")}
+                className="group relative px-6 py-3 overflow-hidden rounded-lg bg-accent backdrop-blur-sm border border-accent/20 text-white font-medium shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="absolute inset-0 w-0 bg-accent/80 transition-all duration-300 ease-out group-hover:w-full"></span>
+                <span className="flex items-center gap-2 relative z-10">
+                  <Briefcase size={18} />
+                  View Portfolio
+                </span>
+              </motion.button>
               <motion.button
                 onClick={() => scrollToSection("contact")}
                 className="group relative px-6 py-3 overflow-hidden rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium shadow-lg"
