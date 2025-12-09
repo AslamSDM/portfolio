@@ -726,6 +726,22 @@ const PortfolioPage = () => {
 
                 {/* Modal Content */}
                 <div className="p-8">
+                  {/* Video Section */}
+                  {selectedProject.videoUrl && (
+                    <div className="mb-8">
+                      <h3 className="text-xl font-semibold mb-4">
+                        Project Demo
+                      </h3>
+                      <div className="relative aspect-video bg-muted rounded-xl overflow-hidden">
+                        <video
+                          src={selectedProject.videoUrl}
+                          controls
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   {/* Long Description */}
                   <div className="mb-8">
                     <h3 className="text-xl font-semibold mb-4">
