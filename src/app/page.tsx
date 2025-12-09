@@ -6,8 +6,6 @@ import {
   Phone,
   Github,
   Linkedin,
-  ExternalLink,
-  Code,
   Briefcase,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -59,37 +57,6 @@ const Portfolio = () => {
         "Built scalable REST APIs with Express.js/MongoDB serving 10K+ daily requests",
         "Contributed to React-based frontends improving user engagement by 35%",
       ],
-    },
-  ];
-
-  const projects = [
-    {
-      title: "MentIQ - SaaS Analytics Platform",
-      tech: "Go, Gin, Next.js 16, PostgreSQL, TimescaleDB, TypeScript",
-      description:
-        "Built a full-stack analytics platform for SaaS companies with Go/Gin backend and Next.js dashboard. Features real-time user behavior tracking, session recordings, A/B testing, churn prediction with AI/ML, and TypeScript SDK for easy integration.",
-      github: "https://github.com/AslamSDM/mentiq",
-    },
-    {
-      title: "ReelsFly - AI Video Generation Platform",
-      tech: "Next.js 15, React 19, TypeScript, Replicate API, Radix UI",
-      description:
-        "Developed a comprehensive AI video generation platform featuring 26+ video models with real-time progress streaming and dynamic parameters. Built with Next.js 15 and Replicate API for stunning AI-generated videos with live progress updates.",
-      github: "https://github.com/AslamSDM/reelsfly",
-    },
-    {
-      title: "Jupiter Lending (Venus Fork)",
-      tech: "Next.js, Solidity, React Charts, GraphQL",
-      description:
-        "Built DeFi lending DApp with Venus Protocol smart contracts and Next.js frontend for liquidity tracking. Developed GraphQL API for real-time market data & interactive React Charts for financial visualizations.",
-      demo: "https://jupyter-omega.vercel.app/",
-    },
-    {
-      title: "PredictX - Decentralized Prediction Market",
-      tech: "Next.js 15, React 19, Solidity, Viem, Socket.io, Prisma",
-      description:
-        "Built decentralized prediction market platform with real-time chat and AI-powered contract validation. Features wallet-based auth, Blockscout integration, and Socket.io for real-time communication on Ethereum.",
-      github: "https://github.com/AslamSDM/predictx",
     },
   ];
 

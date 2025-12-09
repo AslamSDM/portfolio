@@ -9,7 +9,6 @@ import {
   Shield,
   Globe,
   Code2,
-  Smartphone,
   Cpu,
   X,
 } from "lucide-react";
@@ -18,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface Project {
   id: string;
   title: string;
-  category: string;
+  categories: string[];
   description: string;
   longDescription: string;
   tech: string[];
@@ -45,7 +44,7 @@ const PortfolioPage = () => {
     {
       id: "mentiq",
       title: "MentIQ - SaaS Analytics & Retention Platform",
-      category: "fullstack",
+      categories: ["fullstack"],
       description:
         "A comprehensive analytics and retention platform for SaaS products, featuring user behavior tracking, session recordings, A/B testing, and churn prediction.",
       longDescription:
@@ -86,7 +85,7 @@ const PortfolioPage = () => {
     {
       id: "reelsfly",
       title: "ReelsFly - AI Video Generation Platform",
-      category: "fullstack",
+      categories: ["fullstack", "ai"],
       description:
         "A comprehensive AI video generation platform featuring 26+ video models with real-time progress streaming, dynamic parameters, and enhanced model information.",
       longDescription:
@@ -125,7 +124,7 @@ const PortfolioPage = () => {
     {
       id: "predictx",
       title: "PredictX - Decentralized Prediction Market",
-      category: "fullstack",
+      categories: ["fullstack", "blockchain"],
       description:
         "A decentralized prediction market platform with real-time chat, blockchain integration, and AI-powered contract validation on Ethereum.",
       longDescription:
@@ -167,7 +166,7 @@ const PortfolioPage = () => {
     {
       id: "margraf",
       title: "Margraf - Financial Dynamic Knowledge Graph",
-      category: "ai",
+      categories: ["ai"],
       description:
         "A sophisticated Financial Dynamic Knowledge Graph modeling the global economy with real-time updates using AI, web scraping, and sentiment analysis.",
       longDescription:
@@ -207,7 +206,7 @@ const PortfolioPage = () => {
     {
       id: "axton-protocol",
       title: "Axton Protocol - Anonymized OTC Platform",
-      category: "fullstack",
+      categories: ["fullstack", "blockchain"],
       description:
         "A zero-slippage Over-The-Counter trading platform for blockchain assets with anonymized transactions, real-time yield generation, and a unified DeFi ecosystem.",
       longDescription:
@@ -246,7 +245,7 @@ const PortfolioPage = () => {
     {
       id: "litmex-protocol",
       title: "LITMEX Protocol - Presale Platform",
-      category: "fullstack",
+      categories: ["fullstack", "blockchain"],
       description:
         "A Solana-based DeFi protocol combining decentralized prediction markets, mini games, and autonomous AI betting agents for intelligent crypto wagering.",
       longDescription:
@@ -286,7 +285,7 @@ const PortfolioPage = () => {
     {
       id: "shaboy-gaming",
       title: "Shaboy - Decentralized Retro Gaming Platform",
-      category: "fullstack",
+      categories: ["fullstack", "blockchain"],
       description:
         "A decentralized retro gaming platform where developers can mint games as NFTs and trade them in the built-in marketplace, with AI-powered game suggestions.",
       longDescription:
@@ -326,7 +325,7 @@ const PortfolioPage = () => {
     {
       id: "jupyter-lending",
       title: "Jupyter - Lending & Borrowing Platform",
-      category: "blockchain",
+      categories: ["blockchain"],
       description:
         "A decentralized lending and borrowing platform built on BNB Smart Chain, forked from Venus DApp with enhanced features and improved user experience.",
       longDescription:
@@ -361,7 +360,7 @@ const PortfolioPage = () => {
     {
       id: "Spidey-Dapp",
       title: "Landing Page Generation for Meme Coins",
-      category: "blockchain",
+      categories: ["fullstack", "blockchain"],
       description:
         "A  landing page generation platform for meme coins, enabling users to create and customize their own landing pages effortlessly.",
       longDescription:
@@ -406,7 +405,7 @@ const PortfolioPage = () => {
   const filteredProjects =
     filter === "all"
       ? projects
-      : projects.filter((project) => project.category === filter);
+      : projects.filter((project) => project.categories.includes(filter));
 
   const getStatusColor = (status: Project["status"]) => {
     switch (status) {
@@ -486,7 +485,6 @@ const PortfolioPage = () => {
         <motion.div className="grid lg:grid-cols-2 gap-8" layout>
           <AnimatePresence>
             {filteredProjects.map((project, index) => {
-              const CategoryIcon = getCategoryIcon(project.category);
               return (
                 <motion.div
                   key={project.id}
@@ -518,11 +516,19 @@ const PortfolioPage = () => {
                       </span>
                     </div>
 
-                    {/* Category Badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="bg-black/40 backdrop-blur-sm rounded-full p-2">
-                        <CategoryIcon size={20} className="text-white" />
-                      </div>
+                    {/* Category Badges */}
+                    <div className="absolute top-4 right-4 flex gap-2">
+                      {project.categories.map((category) => {
+                        const CategoryIcon = getCategoryIcon(category);
+                        return (
+                          <div
+                            key={category}
+                            className="bg-black/40 backdrop-blur-sm rounded-full p-2"
+                          >
+                            <CategoryIcon size={20} className="text-white" />
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -624,115 +630,6 @@ const PortfolioPage = () => {
             })}
           </AnimatePresence>
         </motion.div>
-
-        {/* Telegram Bots Grid */}
-        {filter === "bots" && (
-          <motion.div className="grid lg:grid-cols-2 gap-8" layout>
-            <AnimatePresence>
-              {filteredBots.map((bot, index) => (
-                <motion.div
-                  key={bot.id}
-                  layout
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -50 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="glass-effect rounded-2xl overflow-hidden hover:bg-muted/50 transition-all duration-300 group"
-                  whileHover={{ y: -10 }}
-                >
-                  {/* Bot Header */}
-                  <div className="relative bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-8 border-b border-border">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors mb-2">
-                          {bot.name}
-                        </h3>
-                        <p className="text-accent font-medium text-lg">
-                          {bot.username}
-                        </p>
-                        {bot.chain && (
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-accent/10 text-accent border border-accent/20 mt-2">
-                            {bot.chain} Chain
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-accent">
-                          {bot.users}
-                        </div>
-                        <div className="text-sm text-foreground/60">
-                          Active Users
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bot Icon */}
-                    <div className="absolute top-4 right-4">
-                      <div className="bg-blue-500/20 backdrop-blur-sm rounded-full p-3">
-                        <Smartphone size={24} className="text-blue-400" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bot Content */}
-                  <div className="p-8">
-                    {/* Description */}
-                    <p className="text-foreground/80 mb-6 leading-relaxed">
-                      {bot.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="mb-6">
-                      <h4 className="text-lg font-semibold text-foreground mb-3">
-                        Key Features
-                      </h4>
-                      <div className="grid grid-cols-1 gap-2">
-                        {bot.features.slice(0, 4).map((feature, idx) => (
-                          <div key={idx} className="flex items-start gap-3">
-                            <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
-                            <span className="text-foreground/80 text-sm">
-                              {feature}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div className="mb-6">
-                      <h4 className="text-sm font-semibold text-foreground/80 mb-3">
-                        Technologies Used
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {bot.tech.map((tech, idx) => (
-                          <span
-                            key={idx}
-                            className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-sm border border-blue-500/20"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Try Bot Button */}
-                    <motion.a
-                      href={`https://t.me/${bot.username.replace("@", "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Smartphone size={18} />
-                      Try Bot on Telegram
-                    </motion.a>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        )}
 
         {/* Project Detail Modal */}
         <AnimatePresence>

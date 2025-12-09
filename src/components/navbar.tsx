@@ -137,7 +137,7 @@ const Navbar: React.FC<NavbarProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
-                window.open("/MoMohammed_Aslam_CV.pdf", "_blank");
+                window.open("/Mohammed_Aslam_CV.pdf", "_blank");
               }}
             >
               <span className="absolute inset-0 w-0 bg-accent/20 transition-all duration-300 ease-out group-hover:w-full"></span>
@@ -219,7 +219,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
-                    window.open("/MoMohammed_Aslam_CV.pdf", "_blank");
+                    window.open("/Mohammed_Aslam_CV.pdf", "_blank");
                     setIsMenuOpen(false);
                   }}
                 >
