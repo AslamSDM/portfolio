@@ -73,11 +73,12 @@ const PortfolioPage = () => {
         "TypeScript SDK for easy integration",
         "Dashboard with modern React UI",
       ],
-      screenshotUrl: "/mentiq/Screenshot 2025-12-09 at 8.28.46 PM.png",
+      screenshotUrl: "/mentiq/dash.png",
       githubUrl: "https://github.com/AslamSDM/mentiq",
       duration: "6 months",
       year: "2024",
       liveUrl: "https://mentiq-dashboard.vercel.app/",
+
       team: "Solo project",
       status: "completed",
       metrics: [
