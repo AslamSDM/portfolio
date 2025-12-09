@@ -11,6 +11,7 @@ import {
   Code2,
   Cpu,
   X,
+  Play,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -23,6 +24,7 @@ interface Project {
   tech: string[];
   features: string[];
   screenshotUrl: string;
+  videoUrl?: string;
   githubUrl?: string;
   liveUrl?: string;
   duration: string;
@@ -35,10 +37,10 @@ interface Project {
   }[];
 }
 
-
 const PortfolioPage = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [filter, setFilter] = useState("all");
+  const [showingVideo, setShowingVideo] = useState<Record<string, boolean>>({});
 
   const projects: Project[] = [
     {
@@ -72,9 +74,11 @@ const PortfolioPage = () => {
         "Dashboard with modern React UI",
       ],
       screenshotUrl: "/images/mentiq-screenshot.png",
+      videoUrl: "/mentiq/Screen Recording 2025-12-08 at 3.14.13 PM.mov",
       githubUrl: "https://github.com/AslamSDM/mentiq",
       duration: "6 months",
       year: "2024",
+      liveUrl: "https://mentiq-dashboard.vercel.app/",
       team: "Solo project",
       status: "completed",
       metrics: [
@@ -110,8 +114,9 @@ const PortfolioPage = () => {
         "Background video processing with progress visualization",
         "Responsive UI with Radix UI components",
       ],
-      screenshotUrl: "/images/reelsfly-screenshot.png",
+      screenshotUrl: "/reelsfly.png",
       githubUrl: "https://github.com/AslamSDM/reelsfly",
+      liveUrl: "https://reelsfly.app",
       duration: "2 months",
       year: "2024",
       team: "Solo project",
@@ -152,8 +157,10 @@ const PortfolioPage = () => {
         "Mobile-responsive design",
         "Multi-chain support architecture",
       ],
-      screenshotUrl: "/images/predictx-screenshot.png",
+      screenshotUrl: "/predictx/WhatsApp Image 2025-10-25 at 19.55.03.jpeg",
+      videoUrl: "/predictx/predictx.mp4",
       githubUrl: "https://github.com/AslamSDM/predictx",
+      liveUrl: "https://predictx-mu.vercel.app/",
       duration: "4 months",
       year: "2024",
       team: "Solo project",
@@ -193,6 +200,7 @@ const PortfolioPage = () => {
         "Economic simulation engine with shock propagation",
       ],
       screenshotUrl: "/images/margraf-screenshot.png",
+      videoUrl: "/margraf/Screen Recording 2025-12-02 at 4.09.49 PM.mov",
       githubUrl: "https://github.com/AslamSDM/margraf",
       duration: "3 months",
       year: "2024",
@@ -231,8 +239,10 @@ const PortfolioPage = () => {
         "Real-time WebSocket updates",
         "Revenue-powered unified DeFi ecosystem",
       ],
-      screenshotUrl: "/images/axton-screenshot.png",
+      screenshotUrl: "/axton.png",
       githubUrl: "https://github.com/AslamSDM/axton",
+      liveUrl: "https://axtonmarkets.com",
+
       duration: "3 months",
       year: "2024",
       team: "Solo project",
@@ -496,14 +506,25 @@ const PortfolioPage = () => {
                   className=" rounded-2xl overflow-hidden hover:bg-muted/50 transition-all duration-300 group"
                   whileHover={{ y: -10 }}
                 >
-                  {/* Screenshot Section */}
+                  {/* Screenshot/Video Section */}
                   <div className="relative aspect-video bg-muted overflow-hidden">
-                    <Image
-                      src={project.screenshotUrl}
-                      alt={`${project.title} screenshot`}
-                      fill
-                      className="object-cover"
-                    />
+                    {project.videoUrl && showingVideo[project.id] ? (
+                      <video
+                        src={project.videoUrl}
+                        controls
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                      />
+                    ) : (
+                      <Image
+                        src={project.screenshotUrl}
+                        alt={`${project.title} screenshot`}
+                        fill
+                        className="object-cover"
+                      />
+                    )}
 
                     {/* Status Badge */}
                     <div className="absolute top-4 left-4">
@@ -515,6 +536,24 @@ const PortfolioPage = () => {
                         {project.status.replace("-", " ").toUpperCase()}
                       </span>
                     </div>
+
+                    {/* Video Toggle Button */}
+                    {project.videoUrl && !showingVideo[project.id] && (
+                      <motion.button
+                        onClick={() =>
+                          setShowingVideo((prev) => ({
+                            ...prev,
+                            [project.id]: true,
+                          }))
+                        }
+                        className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors group/play"
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        <div className="bg-accent/90 backdrop-blur-sm rounded-full p-4 group-hover/play:bg-accent transition-colors">
+                          <Play size={32} className="text-white fill-white" />
+                        </div>
+                      </motion.button>
+                    )}
 
                     {/* Category Badges */}
                     <div className="absolute top-4 right-4 flex gap-2">
@@ -530,6 +569,21 @@ const PortfolioPage = () => {
                         );
                       })}
                     </div>
+
+                    {/* Switch back to screenshot button */}
+                    {project.videoUrl && showingVideo[project.id] && (
+                      <button
+                        onClick={() =>
+                          setShowingVideo((prev) => ({
+                            ...prev,
+                            [project.id]: false,
+                          }))
+                        }
+                        className="absolute bottom-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-sm rounded-full hover:bg-black/80 transition-colors"
+                      >
+                        Show Screenshot
+                      </button>
+                    )}
                   </div>
 
                   {/* Content Section */}
