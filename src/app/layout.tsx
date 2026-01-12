@@ -18,6 +18,29 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mohammed Aslam S - Portfolio",
   description: "Software Engineer | Blockchain & AI Specialist",
+  metadataBase: new URL("https://aslam.sh"),
+  openGraph: {
+    title: "Mohammed Aslam S - Portfolio",
+    description: "Software Engineer | Blockchain & AI Specialist",
+    url: "https://aslam.sh",
+    siteName: "Mohammed Aslam S",
+    images: [
+      {
+        url: "/preview.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Mohammed Aslam S - Software Engineer",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mohammed Aslam S - Portfolio",
+    description: "Software Engineer | Blockchain & AI Specialist",
+    images: ["/preview.jpeg"],
+  },
 };
 
 export default function RootLayout({
