@@ -1,19 +1,9 @@
 "use client";
-import React, { useState } from "react";
+
+import { useState, useMemo } from "react";
 import Image from "next/image";
-import {
-  Github,
-  ExternalLink,
-  Calendar,
-  Users,
-  Shield,
-  Globe,
-  Code2,
-  Cpu,
-  X,
-  Play,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, Github, Play, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface Project {
   id: string;
@@ -31,802 +21,560 @@ interface Project {
   year: string;
   team?: string;
   status: "completed" | "in-progress" | "archived";
-  metrics?: {
-    label: string;
-    value: string;
-  }[];
+  metrics?: { label: string; value: string }[];
 }
 
-const PortfolioPage = () => {
+const projects: Project[] = [
+  {
+    id: "janium",
+    title: "Janium.ai",
+    categories: ["ai", "fullstack"],
+    description: "LinkedIn and email automation platform with a Zapier-like visual workflow builder and Rust actor backend.",
+    longDescription:
+      "Built the frontend dashboard and Rust backend for Janium.ai, a LinkedIn and email automation platform. The frontend features a Zapier-like visual interface for composing workflows, while the Rust backend exposes a GraphQL API and uses Rust actors to manage automation at scale. Includes Xpra-based browser automation for headless LinkedIn session management and interaction orchestration.",
+    tech: ["React.js", "Next.js", "Rust", "GraphQL", "Xpra", "TypeScript", "FastAPI", "Python"],
+    features: [
+      "Zapier-like visual workflow builder for LinkedIn and email automation",
+      "Rust backend with GraphQL API and actor-based concurrency",
+      "Xpra-based headless browser automation for LinkedIn sessions",
+      "Scalable interaction orchestration across accounts",
+      "Real-time workflow execution and monitoring",
+    ],
+    screenshotUrl: "/images/janium-screenshot.png",
+    liveUrl: "https://app.janium.ai/",
+    duration: "3 months",
+    year: "2026",
+    team: "Solo contributor",
+    status: "completed",
+    metrics: [
+      { label: "Platform", value: "LinkedIn + Email" },
+      { label: "Backend", value: "Rust + GraphQL" },
+    ],
+  },
+  {
+    id: "remawt",
+    title: "Remawt",
+    categories: ["ai", "fullstack"],
+    description: "Motion graphics video generation platform for automated product video creation using AI-driven pipelines.",
+    longDescription:
+      "Built a motion graphics video generation platform that automates product video creation end-to-end. Uses LangGraph-based orchestration for scene planning, asset generation, and video composition, with a Remotion rendering pipeline running on dedicated VPS nodes and BullMQ for reliable async rendering at scale.",
+    tech: ["LangGraph", "FFmpeg", "Remotion", "BullMQ", "Node.js", "React.js", "TypeScript"],
+    features: [
+      "LangGraph-based orchestration for scene planning and asset generation",
+      "Remotion-based rendering pipeline on dedicated VPS nodes",
+      "BullMQ job queue for async video rendering, progress tracking, and scalability",
+      "Automated product video creation from raw inputs",
+      "Modular composition system for video scenes",
+    ],
+    screenshotUrl: "/images/remawt-screenshot.png",
+    liveUrl: "https://remawt.com",
+    duration: "Ongoing",
+    year: "2025",
+    team: "Solo project",
+    status: "in-progress",
+    metrics: [],
+  },
+  {
+    id: "mentiq",
+    title: "Mentiq Analytics",
+    categories: ["fullstack", "ai"],
+    description: "Full-stack analytics platform with high-performance Go backend, time-series storage, and AI churn prediction.",
+    longDescription:
+      "Solely architected and built a full-stack analytics platform with a high-performance Go backend for event ingestion and processing. Uses PostgreSQL with TimescaleDB for time-series analytics, a message queue for reliable buffering, lightweight React/Next.js SDKs, and an agentic real-time paid-user tracking system to reduce churn.",
+    tech: ["Golang", "PostgreSQL", "TimescaleDB", "Redis", "React.js", "Next.js", "Claude SDK", "Kafka"],
+    features: [
+      "High-performance Go backend for event ingestion",
+      "Time-series data storage with PostgreSQL + TimescaleDB",
+      "Message queue system for reliable event processing",
+      "Lightweight React.js and Next.js tracking SDKs",
+      "Real-time analytics dashboard with funnels and behavior insights",
+      "Agentic paid-user tracking and churn prediction models",
+    ],
+    screenshotUrl: "/mentiq/dash.png",
+    githubUrl: "https://github.com/AslamSDM/mentiq",
+    liveUrl: "https://mentiq-dashboard.vercel.app/",
+    duration: "6 months",
+    year: "2024",
+    team: "Solo project",
+    status: "completed",
+    metrics: [
+      { label: "Components", value: "Backend + Dashboard + SDK" },
+      { label: "Database", value: "PostgreSQL + TimescaleDB" },
+    ],
+  },
+  {
+    id: "prawler",
+    title: "Prawler",
+    categories: ["ai", "fullstack"],
+    description: "AI-powered stealth social media automation and outreach system with custom browser automation.",
+    longDescription:
+      "Built an AI-powered stealth social media automation and outreach system with a custom browser automation framework that uses computer vision to resist UI changes. Orchestrates cross-platform workflows for LinkedIn, X, and Reddit with email outreach, human-behavior simulation, proxy rotation, and encrypted cookie persistence.",
+    tech: ["Python", "FastAPI", "Gemini", "Ollama", "nodriver", "Chrome Extensions"],
+    features: [
+      "CV-resistant custom browser automation framework",
+      "Cross-platform automation for LinkedIn, X, and Reddit",
+      "Integrated email outreach pipelines",
+      "Human-behavior simulation and session management",
+      "Residential proxy rotation and encrypted cookie persistence",
+      "Unified FastAPI dashboard for pipeline monitoring",
+    ],
+    screenshotUrl: "/images/prawler-screenshot.png",
+    duration: "Ongoing",
+    year: "2025",
+    team: "Solo project",
+    status: "in-progress",
+    metrics: [],
+  },
+  {
+    id: "chatqik",
+    title: "Chatqik",
+    categories: ["ai", "fullstack"],
+    description: "Multilingual customer support chatbot for WhatsApp and web using RAG and AI agent orchestration.",
+    longDescription:
+      "Built an intelligent, multilingual customer support chatbot for WhatsApp and web interfaces. Leverages Retrieval-Augmented Generation over product docs, a 7-step Mastra AI workflow with triage and guardrails, Whisper for speech-to-text, and supports English and Malayalam queries.",
+    tech: ["TypeScript", "Node.js", "PostgreSQL", "Qdrant", "Mastra", "Vercel AI SDK", "Express.js", "Drizzle ORM", "Docker Compose"],
+    features: [
+      "Multilingual support for English and Malayalam",
+      "RAG over product documentation",
+      "7-step Mastra AI orchestration with triage and human escalation",
+      "Whisper speech-to-text integration",
+      "Persistent conversation history and rate limiting",
+      "QWen3-TTS custom voice clone voice messages",
+    ],
+    screenshotUrl: "/images/chatqik-screenshot.png",
+    liveUrl: "https://chatqik.com",
+    duration: "3 months",
+    year: "2025",
+    team: "Solo project",
+    status: "completed",
+    metrics: [],
+  },
+  {
+    id: "reelsfly",
+    title: "ReelsFly",
+    categories: ["fullstack", "ai"],
+    description: "AI video generation platform with open-source models, Story Mode, and end-to-end audio/video synthesis.",
+    longDescription:
+      "Built an end-to-end AI video generation platform enabling users to create videos using open-source video generation and image editing models. Features Story Mode for automated storyboard generation, scene composition, video synthesis, and audio generation with real-time progress tracking.",
+    tech: ["Next.js", "Python", "FFmpeg", "Stable Diffusion", "TTS", "React.js", "TypeScript"],
+    features: [
+      "Story Mode automating storyboard → scene → video → audio",
+      "Multiple AI models for image editing, video generation, and TTS",
+      "Intuitive dashboard for managing video projects",
+      "Real-time generation progress tracking",
+      "Open-source model integration pipeline",
+    ],
+    screenshotUrl: "/reelsfly.png",
+    githubUrl: "https://github.com/AslamSDM/reelsfly",
+    liveUrl: "https://reelsfly.com",
+    duration: "4 months",
+    year: "2024",
+    team: "Solo project",
+    status: "completed",
+    metrics: [
+      { label: "Models", value: "10+" },
+      { label: "Framework", value: "Next.js + Python" },
+    ],
+  },
+  {
+    id: "cido-api",
+    title: "Cido API Service",
+    categories: ["fullstack", "devops"],
+    description: "Secure Rust API service for crate uploads, sandboxed builds, and Kubernetes deployments.",
+    longDescription:
+      "Implemented a secure Rust backend API service that handles crate uploads, validates builds in isolated Docker containers, and manages deployments to Kubernetes. Includes JWT authentication, CI pipeline integration with private crate substitution, and GitLab registry publishing.",
+    tech: ["Rust", "Axum", "Docker", "Kubernetes", "GitLab CI", "JWT"],
+    features: [
+      "Secure crate upload and validation API",
+      "Isolated Docker build environments",
+      "Kubernetes deployment management",
+      "JWT-based authentication and protected routes",
+      "CI pipeline replacing public deps with private crates",
+      "REST endpoints for full crate deployment lifecycle",
+    ],
+    screenshotUrl: "/images/cido-screenshot.png",
+    duration: "3 months",
+    year: "2024",
+    team: "Solo project",
+    status: "completed",
+    metrics: [],
+  },
+  {
+    id: "predictx",
+    title: "PredictX",
+    categories: ["fullstack", "blockchain"],
+    description: "Decentralized prediction market with real-time chat, wallet auth, and AI contract validation.",
+    longDescription:
+      "Developed PredictX as a comprehensive decentralized prediction market platform built with Next.js 15. Features real-time chat rooms, wallet-based authentication with Privy, and AI-powered contract validation.",
+    tech: ["Next.js 15", "React 19", "TypeScript", "Solidity", "Viem", "Zustand", "Socket.io", "PostgreSQL", "Prisma"],
+    features: [
+      "Create and bet on predictions with dynamic odds",
+      "Real-time chat rooms for each prediction market",
+      "Wallet-based authentication with Privy",
+      "AI-powered contract validation and safety checks",
+      "Blockscout integration for transaction transparency",
+      "Infinite scroll discovery feed with preloading",
+    ],
+    screenshotUrl: "/predictx/WhatsApp Image 2025-10-25 at 19.55.03.jpeg",
+    videoUrl: "/predictx/predictx.mp4",
+    githubUrl: "https://github.com/AslamSDM/predictx",
+    liveUrl: "https://predictx-mu.vercel.app/",
+    duration: "4 months",
+    year: "2024",
+    team: "Solo project",
+    status: "completed",
+    metrics: [
+      { label: "Network", value: "Sepolia Testnet" },
+      { label: "Tech Stack", value: "Full-Stack + Blockchain" },
+    ],
+  },
+  {
+    id: "axton-protocol",
+    title: "Axton Protocol",
+    categories: ["fullstack", "blockchain"],
+    description: "Anonymized OTC trading platform for blockchain assets with zero slippage and real yield.",
+    longDescription:
+      "Developed Axton Protocol as a comprehensive OTC trading platform that enables zero-slippage deals for blockchain assets. Features a modern Next.js frontend with animated backgrounds, WebSocket integration for real-time updates, and a Node.js backend.",
+    tech: ["Next.js", "React", "TypeScript", "Node.js", "WebSocket", "Framer Motion", "Tailwind CSS", "Zustand"],
+    features: [
+      "Zero-slippage OTC trading for blockchain assets",
+      "Anonymized transactions for privacy",
+      "Real yield generation for users",
+      "Custom clip-path components for modern UI",
+      "Horizontal and vertical scroll experiences",
+      "Real-time WebSocket updates",
+    ],
+    screenshotUrl: "/axton.png",
+    githubUrl: "https://github.com/AslamSDM/axton",
+    liveUrl: "https://axtonmarkets.com",
+    duration: "3 months",
+    year: "2024",
+    team: "Solo project",
+    status: "completed",
+    metrics: [
+      { label: "Volume", value: "$50M+" },
+      { label: "Users", value: "25K+" },
+    ],
+  },
+  {
+    id: "litmex-protocol",
+    title: "LITMEX Protocol",
+    categories: ["fullstack", "blockchain"],
+    description: "Solana-based DeFi protocol combining prediction markets, mini games, and AI betting agents.",
+    longDescription:
+      "Developed LITMEX Protocol, an innovative DeFi platform built on Solana that combines decentralized prediction markets with mini games and autonomous AI betting agents.",
+    tech: ["Rust", "Solana", "Anchor Framework", "Next.js", "TypeScript", "Web3.js", "Serum DEX", "Metaplex"],
+    features: [
+      "Decentralized prediction markets with real-time odds",
+      "AI-powered autonomous betting agents",
+      "Addictive mini games with crypto rewards",
+      "High-speed transactions on Solana blockchain",
+      "Advanced risk management and liquidity pools",
+    ],
+    screenshotUrl: "/images/litmex-screenshot.png",
+    githubUrl: "https://github.com/AslamSDM/litmex-protocol",
+    liveUrl: "https://litmexpresale.com",
+    duration: "6 months",
+    year: "2025",
+    team: "Solo project",
+    status: "completed",
+    metrics: [
+      { label: "Presale Raised", value: "$500K+" },
+      { label: "Active Users", value: "8K+" },
+      { label: "Games Played", value: "100K+" },
+    ],
+  },
+  {
+    id: "shaboy-gaming",
+    title: "Shaboy",
+    categories: ["fullstack", "blockchain"],
+    description: "Decentralized retro gaming platform with NFT game minting and AI-powered suggestions.",
+    longDescription:
+      "Led the development of Shaboy, a decentralized gaming platform that transforms retro games into tradeable NFTs. Built on Starknet using Cairo smart contracts with a browser-based React GBA console and Mistral 7B game suggestions.",
+    tech: ["Cairo", "Starknet", "React", "Next.js", "TypeScript", "React GBA", "Mistral 7B", "Node.js"],
+    features: [
+      "NFT game minting and trading marketplace",
+      "Browser-based retro gaming console using React GBA",
+      "AI-powered game suggestion engine with Mistral 7B",
+      "Smart contracts written in Cairo for Starknet",
+      "Decentralized game ownership and trading",
+    ],
+    screenshotUrl: "/images/shaboy-screenshot.png",
+    githubUrl: "https://github.com/AslamSDM/shaboy-platform",
+    liveUrl: "https://shaboy.gaming",
+    duration: "8 months",
+    year: "2024",
+    team: "Lead developer with team",
+    status: "completed",
+    metrics: [
+      { label: "Award", value: "Most Promising Project - Starhack 2024" },
+      { label: "Games Minted", value: "2,500+" },
+      { label: "Active Players", value: "10K+" },
+    ],
+  },
+];
+
+const filters = [
+  { id: "all", label: "All" },
+  { id: "blockchain", label: "Blockchain" },
+  { id: "ai", label: "AI/ML" },
+  { id: "fullstack", label: "Full Stack" },
+  { id: "devops", label: "DevOps" },
+];
+
+export default function PortfolioPage() {
+  const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [filter, setFilter] = useState("all");
-  const [showingVideo, setShowingVideo] = useState<Record<string, boolean>>({});
+  const [playingVideo, setPlayingVideo] = useState<Record<string, boolean>>({});
 
-  const projects: Project[] = [
-    {
-      id: "mentiq",
-      title: "MentIQ - SaaS Analytics & Retention Platform",
-      categories: ["fullstack"],
-      description:
-        "A comprehensive analytics and retention platform for SaaS products, featuring user behavior tracking, session recordings, A/B testing, and churn prediction.",
-      longDescription:
-        "Built MentIQ as a full-stack analytics platform to help SaaS companies track user engagement, reduce churn, and boost retention. The platform consists of a Go/Gin backend with PostgreSQL/TimescaleDB, a Next.js 16 dashboard with App Router, and a TypeScript SDK for React/Next.js applications. Features include real-time analytics, session replay, funnel analysis, cohort tracking, and AI-powered churn prediction. Integrated with Stripe for revenue tracking and AWS/R2 for session recording storage.",
-      tech: [
-        "Go",
-        "Gin",
-        "Next.js 16",
-        "TypeScript",
-        "PostgreSQL",
-        "TimescaleDB",
-        "React",
-        "NextAuth.js",
-        "Stripe",
-        "AWS/R2",
-      ],
-      features: [
-        "Real-time user behavior and engagement tracking",
-        "Session recordings and replay functionality",
-        "A/B testing and experimentation framework",
-        "Churn prediction with AI/ML models",
-        "Cohort analysis and retention metrics",
-        "Revenue analytics with Stripe integration",
-        "TypeScript SDK for easy integration",
-        "Dashboard with modern React UI",
-      ],
-      screenshotUrl: "/mentiq/dash.png",
-      githubUrl: "https://github.com/AslamSDM/mentiq",
-      duration: "6 months",
-      year: "2024",
-      liveUrl: "https://mentiq-dashboard.vercel.app/",
+  const filteredProjects = useMemo(() => {
+    if (activeFilter === "all") return projects;
+    return projects.filter((p) => p.categories.includes(activeFilter));
+  }, [activeFilter]);
 
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Components", value: "Backend + Dashboard + SDK" },
-        { label: "Database", value: "PostgreSQL + TimescaleDB" },
-      ],
-    },
-    {
-      id: "reelsfly",
-      title: "ReelsFly - AI Video Generation Platform",
-      categories: ["fullstack", "ai"],
-      description:
-        "A comprehensive AI video generation platform featuring 26+ video models with real-time progress streaming, dynamic parameters, and enhanced model information.",
-      longDescription:
-        "Developed ReelsFly as a cutting-edge AI video generation platform using Next.js 15 and Replicate's AI models. The platform seamlessly fuses creativity and technology to deliver stunning AI-generated videos with real-time progress updates. Features include 26+ curated video models (Luma Dream Machine, RunwayML Gen-3, Stable Video Diffusion, etc.), dynamic parameter generation based on OpenAPI schemas, live pricing information, example galleries, and Server-Sent Events for real-time progress streaming. Built with React 19, TypeScript, Radix UI for accessibility, and optimized with static model caching and progressive loading.",
-      tech: [
-        "Next.js 15",
-        "React 19",
-        "TypeScript",
-        "Replicate API",
-        "Radix UI",
-        "Tailwind CSS",
-        "Server-Sent Events",
-        "OpenAPI",
-      ],
-      features: [
-        "26+ AI video generation models including Luma Dream Machine and RunwayML Gen-3",
-        "Real-time progress streaming with Server-Sent Events",
-        "Dynamic parameter forms auto-generated from model schemas",
-        "Live pricing information and usage statistics",
-        "Example galleries with sample inputs and outputs",
-        "Rich model cards with comprehensive documentation",
-        "Background video processing with progress visualization",
-        "Responsive UI with Radix UI components",
-      ],
-      screenshotUrl: "/reelsfly.png",
-      githubUrl: "https://github.com/AslamSDM/reelsfly",
-      liveUrl: "https://reelsfly.app",
-      duration: "2 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "AI Models", value: "26+" },
-        { label: "Framework", value: "Next.js 15 + React 19" },
-      ],
-    },
-    {
-      id: "predictx",
-      title: "PredictX - Decentralized Prediction Market",
-      categories: ["fullstack", "blockchain"],
-      description:
-        "A decentralized prediction market platform with real-time chat, blockchain integration, and AI-powered contract validation on Ethereum.",
-      longDescription:
-        "Developed PredictX as a comprehensive decentralized prediction market platform built with Next.js 15. The platform enables users to create, bet on, and discuss predictions with full blockchain transparency through Blockscout integration. Features real-time chat rooms for each prediction, wallet-based authentication with Privy, and AI-powered contract validation. Built with React 19, Zustand state management, Socket.io for real-time communication, and Viem for blockchain interactions. Includes smart contracts deployed on Sepolia testnet with extensible multi-chain architecture.",
-      tech: [
-        "Next.js 15",
-        "React 19",
-        "TypeScript",
-        "Solidity",
-        "Viem",
-        "Zustand",
-        "Socket.io",
-        "PostgreSQL",
-        "Prisma",
-        "Tailwind CSS",
-        "Framer Motion",
-      ],
-      features: [
-        "Create and bet on predictions with dynamic odds",
-        "Real-time chat rooms for each prediction market",
-        "Wallet-based authentication with Privy",
-        "AI-powered contract validation and safety checks",
-        "Blockscout integration for transaction transparency",
-        "Infinite scroll discovery feed with preloading",
-        "Mobile-responsive design",
-        "Multi-chain support architecture",
-      ],
-      screenshotUrl: "/predictx/WhatsApp Image 2025-10-25 at 19.55.03.jpeg",
-      videoUrl: "/predictx/predictx.mp4",
-      githubUrl: "https://github.com/AslamSDM/predictx",
-      liveUrl: "https://predictx-mu.vercel.app/",
-      duration: "4 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Network", value: "Sepolia Testnet" },
-        { label: "Tech Stack", value: "Full-Stack + Blockchain" },
-      ],
-    },
-    {
-      id: "margraf",
-      title: "Margraf - Financial Dynamic Knowledge Graph",
-      categories: ["ai"],
-      description:
-        "A sophisticated Financial Dynamic Knowledge Graph modeling the global economy with real-time updates using AI, web scraping, and sentiment analysis.",
-      longDescription:
-        "Built Margraf as an innovative prototype that models the global economy as a graph of Nations, Industries, Corporations, and Raw Materials, linked by trade and supply chain relationships. The system uses recursive RAG (Retrieval-Augmented Generation) to discover entities via Wikipedia and search engines, monitors RSS feeds for breaking news, and analyzes social media sentiment using LLMs. Features a real-time WebSocket dashboard for visualizing economic shocks propagating through the graph. Built with Go, featuring thread-safe concurrency with sync.RWMutex, Google Gemini API for AI reasoning, and automated market data updates from Yahoo Finance.",
-      tech: [
-        "Go",
-        "Google Gemini API",
-        "WebSocket",
-        "Docker",
-        "Kubernetes",
-        "PostgreSQL",
-        "RAG",
-        "Web Scraping",
-        "Graph Algorithms",
-      ],
-      features: [
-        "Dynamic knowledge graph of global economic entities",
-        "Recursive RAG-based entity discovery from Wikipedia",
-        "Real-time news monitoring and economic shock propagation",
-        "Social media sentiment analysis with LLMs",
-        "WebSocket dashboard for live graph visualization",
-        "Automated stock price updates from Yahoo Finance",
-        "Thread-safe concurrent processing",
-        "Economic simulation engine with shock propagation",
-      ],
-      screenshotUrl: "/margraf/WhatsApp Image 2025-12-09 at 20.29.50.jpeg",
-      githubUrl: "https://github.com/AslamSDM/margraf",
-      duration: "3 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Type", value: "AI + Knowledge Graph" },
-        { label: "LLM", value: "Google Gemini" },
-      ],
-    },
-    {
-      id: "axton-protocol",
-      title: "Axton Protocol - Anonymized OTC Platform",
-      categories: ["fullstack", "blockchain"],
-      description:
-        "A zero-slippage Over-The-Counter trading platform for blockchain assets with anonymized transactions, real-time yield generation, and a unified DeFi ecosystem.",
-      longDescription:
-        "Developed Axton Protocol as a comprehensive OTC trading platform that enables zero-slippage deals for blockchain assets. The platform features a modern Next.js frontend with 7 different animated backgrounds (Orb, GridScan, Beams, Silk, Dither, GradientBlinds, Iridescence), custom clip-path components for unique UI design, and advanced Framer Motion animations. Built with dual scroll flows (vertical and horizontal parallax), WebSocket integration for real-time updates, and a Node.js backend. The platform emphasizes transparency, security, and community-first values while providing real yield to users through revenue-powered mechanisms.",
-      tech: [
-        "Next.js",
-        "React",
-        "TypeScript",
-        "Node.js",
-        "WebSocket",
-        "Framer Motion",
-        "Tailwind CSS",
-        "Zustand",
-      ],
-      features: [
-        "Zero-slippage OTC trading for blockchain assets",
-        "Anonymized transactions for privacy",
-        "Real yield generation for users",
-        "7 unique animated backgrounds with custom effects",
-        "Custom clip-path components for modern UI",
-        "Horizontal and vertical scroll experiences",
-        "Real-time WebSocket updates",
-        "Revenue-powered unified DeFi ecosystem",
-      ],
-      screenshotUrl: "/axton.png",
-      githubUrl: "https://github.com/AslamSDM/axton",
-      liveUrl: "https://axtonmarkets.com",
-
-      duration: "3 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Volume", value: "$50M+" },
-        { label: "Users", value: "25K+" },
-      ],
-    },
-    {
-      id: "litmex-protocol",
-      title: "LITMEX Protocol - Presale Platform",
-      categories: ["fullstack", "blockchain"],
-      description:
-        "A Solana-based DeFi protocol combining decentralized prediction markets, mini games, and autonomous AI betting agents for intelligent crypto wagering.",
-      longDescription:
-        "Developed LITMEX Protocol, an innovative DeFi platform built on Solana that revolutionizes crypto wagering through intelligent automation. The protocol combines decentralized prediction markets with addictive mini games and autonomous AI betting agents to create a comprehensive gambling ecosystem. Features advanced smart contracts optimized for Solana's high-speed, low-cost infrastructure and implements sophisticated risk management algorithms.",
-      tech: [
-        "Rust",
-        "Solana",
-        "Anchor Framework",
-        "Next.js",
-        "TypeScript",
-        "Web3.js",
-        "Serum DEX",
-        "Metaplex",
-      ],
-      features: [
-        "Decentralized prediction markets with real-time odds",
-        "AI-powered autonomous betting agents",
-        "Addictive mini games with crypto rewards",
-        "High-speed transactions on Solana blockchain",
-        "Advanced risk management and liquidity pools",
-        "Cross-platform gaming interface",
-      ],
-      screenshotUrl: "/images/litmex-screenshot.png",
-      githubUrl: "https://github.com/AslamSDM/litmex-protocol",
-      liveUrl: "https://litmexpresale.com",
-      duration: "6 months",
-      year: "2025",
-      team: "Solo project",
-      status: "completed",
-      metrics: [
-        { label: "Presale Raised", value: "$500K+" },
-        { label: "Active Users", value: "8K+" },
-        { label: "Games Played", value: "100K+" },
-      ],
-    },
-
-    {
-      id: "shaboy-gaming",
-      title: "Shaboy - Decentralized Retro Gaming Platform",
-      categories: ["fullstack", "blockchain"],
-      description:
-        "A decentralized retro gaming platform where developers can mint games as NFTs and trade them in the built-in marketplace, with AI-powered game suggestions.",
-      longDescription:
-        "Led the development of Shaboy, a revolutionary decentralized gaming platform that transforms retro games into tradeable NFTs. Built on Starknet blockchain using Cairo smart contracts, the platform features an integrated marketplace and uses the browser as a gaming console through React GBA modules. Implemented an AI game suggestion engine powered by Mistral 7B model to enhance user experience and game discovery.",
-      tech: [
-        "Cairo",
-        "Starknet",
-        "React",
-        "Next.js",
-        "TypeScript",
-        "React GBA",
-        "Mistral 7B",
-        "Node.js",
-      ],
-      features: [
-        "NFT game minting and trading marketplace",
-        "Browser-based retro gaming console using React GBA",
-        "AI-powered game suggestion engine with Mistral 7B",
-        "Smart contracts written in Cairo for Starknet",
-        "Decentralized game ownership and trading",
-        "Retro gaming library with modern blockchain integration",
-      ],
-      screenshotUrl: "/images/shaboy-screenshot.png",
-      githubUrl: "https://github.com/AslamSDM/shaboy-platform",
-      liveUrl: "https://shaboy.gaming",
-      duration: "8 months",
-      year: "2024",
-      team: "Lead developer with team",
-      status: "completed",
-      metrics: [
-        { label: "Award", value: "🏆 Most Promising Project - Starhack 2024" },
-        { label: "Games Minted", value: "2,500+" },
-        { label: "Active Players", value: "10K+" },
-      ],
-    },
-
-    {
-      id: "jupyter-lending",
-      title: "Jupyter - Lending & Borrowing Platform",
-      categories: ["blockchain"],
-      description:
-        "A decentralized lending and borrowing platform built on BNB Smart Chain, forked from Venus DApp with enhanced features and improved user experience.",
-      longDescription:
-        "Developed Jupyter as a comprehensive DeFi lending and borrowing platform on BNB Smart Chain. As a Venus DApp fork, it provides users with the ability to lend their crypto assets to earn interest and borrow against their collateral. Implemented a full-stack solution with modern frontend technologies and robust backend infrastructure including smart contracts, database management, and GraphQL APIs for efficient data querying.",
-      tech: [
-        "Solidity",
-        "Next.js",
-        "Tailwind CSS",
-        "Hardhat",
-        "PostgreSQL",
-        "GraphQL",
-        "BNB Smart Chain",
-        "Web3.js",
-      ],
-      features: [
-        "Crypto lending with competitive interest rates",
-        "Collateralized borrowing with multiple asset support",
-        "Real-time interest rate calculations",
-        "Portfolio management and analytics dashboard",
-        "Multi-asset collateral support",
-        "Automated liquidation mechanisms for risk management",
-      ],
-      screenshotUrl: "/images/jupyter-screenshot.png",
-      githubUrl: "https://github.com/AslamSDM/jupyter-lending",
-      liveUrl: "https://jupyter.defi",
-      duration: "5 months",
-      year: "2024",
-      team: "Solo project",
-      status: "completed",
-      metrics: [],
-    },
-    {
-      id: "Spidey-Dapp",
-      title: "Landing Page Generation for Meme Coins",
-      categories: ["fullstack", "blockchain"],
-      description:
-        "A  landing page generation platform for meme coins, enabling users to create and customize their own landing pages effortlessly.",
-      longDescription:
-        "Developed Spidey DApp as a comprehensive solution for meme coin projects to generate landing pages quickly. The platform allows users to choose from various templates, customize content, and deploy their landing pages with ease. Implemented a full-stack solution with modern frontend technologies and robust backend infrastructure including smart contracts, database management, and GraphQL APIs for efficient data querying.",
-      tech: [
-        "Next.js",
-        "Tailwind CSS",
-        "GraphQL",
-        "BNB Smart Chain",
-        "Claude 3",
-        "LangChain",
-        "Stable Diffusion",
-      ],
-      features: [
-        "Template-based landing page generation",
-        "AI-powered content creation using Claude 3",
-        "Customizable design elements and layouts",
-        "One-click deployment to IPFS",
-        "User-friendly interface for non-technical users",
-        "Media generation using Stable Diffusion",
-      ],
-      screenshotUrl: "/images/spidey-screenshot.png",
-      liveUrl: "https://spidey-dapp.vercel.app",
-      duration: "1 month",
-      year: "2024",
-      team: "Team project",
-      status: "completed",
-      metrics: [
-        { label: "Active Users", value: "1K+" },
-        { label: "Landing Pages Created", value: "1K+" },
-      ],
-    },
-  ];
-
-  const categories = [
-    { id: "all", label: "All Projects", icon: Globe },
-    { id: "blockchain", label: "Blockchain", icon: Shield },
-    { id: "ai", label: "AI/ML", icon: Cpu },
-    { id: "fullstack", label: "Full Stack", icon: Code2 },
-  ];
-
-  const filteredProjects =
-    filter === "all"
-      ? projects
-      : projects.filter((project) => project.categories.includes(filter));
-
-  const getStatusColor = (status: Project["status"]) => {
+  const statusLabel = (status: Project["status"]) => {
     switch (status) {
       case "completed":
-        return "text-green-600 bg-green-100";
+        return "Done";
       case "in-progress":
-        return "text-blue-600 bg-blue-100";
+        return "In progress";
       case "archived":
-        return "text-gray-600 bg-gray-100";
-      default:
-        return "text-gray-600 bg-gray-100";
-    }
-  };
-
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "blockchain":
-        return Shield;
-      case "ai":
-        return Cpu;
-      case "fullstack":
-        return Code2;
-      default:
-        return Globe;
+        return "Archived";
     }
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground grain-texture noise-texture pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Title */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-4">
-            Portfolio Projects
-          </h1>
-          <p className="text-foreground/70 text-lg">
-            Explore my blockchain, AI, and full-stack development projects
-          </p>
-        </motion.div>
+    <main className="min-h-screen bg-background">
+      <article className="notion-page fade-in">
+        <div className="notion-page-icon">💼</div>
 
-        {/* Category Filter */}
-        <motion.div
-          className="flex flex-wrap gap-4 mb-12 justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {categories.map((category) => {
-            const Icon = category.icon;
-            return (
-              <motion.button
-                key={category.id}
-                onClick={() => {
-                  setFilter(category.id);
-                }}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
-                  filter === category.id
-                    ? "bg-foreground text-background"
-                    : " hover:bg-muted/50"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Icon size={20} />
-                {category.label}
-              </motion.button>
-            );
-          })}
-        </motion.div>
+        <h1 className="text-[40px] leading-[1.2] font-bold tracking-tight text-foreground mt-6">
+          Portfolio
+        </h1>
+        <p className="text-lg text-text-muted mt-2">
+          Selected projects in AI automation, video generation, analytics, blockchain, and dev tooling.
+        </p>
 
-        {/* Projects Grid */}
-        <motion.div className="grid lg:grid-cols-2 gap-8" layout>
-          <AnimatePresence>
-            {filteredProjects.map((project, index) => {
-              return (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -50 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className=" rounded-2xl overflow-hidden hover:bg-muted/50 transition-all duration-300 group"
-                  whileHover={{ y: -10 }}
+        <hr className="notion-divider" />
+
+        {/* Filters */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {filters.map((filter) => (
+            <button
+              key={filter.id}
+              onClick={() => setActiveFilter(filter.id)}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                activeFilter === filter.id
+                  ? "bg-foreground text-background"
+                  : "text-text-muted hover:bg-hover hover:text-foreground"
+              }`}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Project list */}
+        <div className="space-y-4">
+          {filteredProjects.map((project) => (
+            <button
+              key={project.id}
+              onClick={() => setSelectedProject(project)}
+              className="w-full text-left notion-card group"
+            >
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="relative w-full sm:w-40 h-28 shrink-0 rounded overflow-hidden border border-border bg-muted"
                 >
-                  {/* Screenshot/Video Section */}
-                  <div className="relative aspect-video bg-muted overflow-hidden">
-                    {project.videoUrl && showingVideo[project.id] ? (
-                      <video
-                        src={project.videoUrl}
-                        controls
-                        className="w-full h-full object-cover"
-                        autoPlay
-                        muted
-                        loop
-                      />
-                    ) : (
-                      <Image
-                        src={project.screenshotUrl}
-                        alt={`${project.title} screenshot`}
-                        fill
-                        className="object-cover"
-                      />
-                    )}
+                  <Image
+                    src={project.screenshotUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                  />
+                  {project.videoUrl && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <Play size={20} className="text-white fill-white" />
+                    </div>
+                  )}
+                </div>
 
-                    {/* Status Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                          project.status
-                        )}`}
-                      >
-                        {project.status.replace("-", " ").toUpperCase()}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-lg font-semibold text-foreground group-hover:text-text-muted transition-colors">
+                      {project.title}
+                    </h3>
+                    <span className="text-xs text-text-muted shrink-0 mt-1">
+                      {statusLabel(project.status)}
+                    </span>
+                  </div>
+
+                  <p className="text-[15px] leading-[1.6] text-foreground mt-1">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-2 mt-3">
+                    {project.tech.slice(0, 6).map((tech) => (
+                      <span key={tech} className="notion-pill text-xs">
+                        {tech}
                       </span>
-                    </div>
-
-                    {/* Video Toggle Button */}
-                    {project.videoUrl && !showingVideo[project.id] && (
-                      <motion.button
-                        onClick={() =>
-                          setShowingVideo((prev) => ({
-                            ...prev,
-                            [project.id]: true,
-                          }))
-                        }
-                        className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors group/play"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <div className="bg-accent/90 backdrop-blur-sm rounded-full p-4 group-hover/play:bg-accent transition-colors">
-                          <Play size={32} className="text-white fill-white" />
-                        </div>
-                      </motion.button>
-                    )}
-
-                    {/* Category Badges */}
-                    <div className="absolute top-4 right-4 flex gap-2">
-                      {project.categories.map((category) => {
-                        const CategoryIcon = getCategoryIcon(category);
-                        return (
-                          <div
-                            key={category}
-                            className="bg-black/40 backdrop-blur-sm rounded-full p-2"
-                          >
-                            <CategoryIcon size={20} className="text-white" />
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* Switch back to screenshot button */}
-                    {project.videoUrl && showingVideo[project.id] && (
-                      <button
-                        onClick={() =>
-                          setShowingVideo((prev) => ({
-                            ...prev,
-                            [project.id]: false,
-                          }))
-                        }
-                        className="absolute bottom-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-sm rounded-full hover:bg-black/80 transition-colors"
-                      >
-                        Show Screenshot
-                      </button>
+                    ))}
+                    {project.tech.length > 6 && (
+                      <span className="text-xs text-text-muted">+{project.tech.length - 6} more</span>
                     )}
                   </div>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </article>
 
-                  {/* Content Section */}
-                  <div className="p-8">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors mb-2">
-                          {project.title}
-                        </h3>
-                        <p className="text-foreground/60 text-sm flex items-center gap-4">
-                          <span className="flex items-center gap-1">
-                            <Calendar size={14} />
-                            {project.year}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Users size={14} />
-                            {project.team || "Solo"}
-                          </span>
-                        </p>
-                      </div>
-
-                      <div className="flex gap-2">
-                        {project.githubUrl && (
-                          <motion.a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-accent/10 rounded-full hover:bg-accent/20 transition-colors"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => {}}
-                          >
-                            <Github size={20} className="text-accent" />
-                          </motion.a>
-                        )}
-                        {project.liveUrl && (
-                          <motion.a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-accent/10 rounded-full hover:bg-accent/20 transition-colors"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                          >
-                            <ExternalLink size={20} className="text-accent" />
-                          </motion.a>
-                        )}
-                      </div>
-                    </div>
-                    {/* Description */}
-                    <p className="text-foreground/80 mb-6 leading-relaxed">
-                      {project.description}
-                    </p>
-                    {/* Metrics */}
-                    {project.metrics && (
-                      <div className="grid grid-cols-3 gap-4 mb-6">
-                        {project.metrics.map((metric, idx) => (
-                          <div key={idx} className="text-center">
-                            <div className="text-lg font-bold text-accent">
-                              {metric.value}
-                            </div>
-                            <div className="text-xs text-foreground/60">
-                              {metric.label}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {/* Tech Stack */}
-                    <div className="mb-6">
-                      <h4 className="text-sm font-semibold text-foreground/80 mb-3">
-                        Technologies Used
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech, idx) => (
-                          <span
-                            key={idx}
-                            className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm border border-accent/20"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    {/* View Details Button */}
-                    <motion.button
-                      onClick={() => setSelectedProject(project)}
-                      className="w-full bg-foreground text-background hover:bg-accent py-3 rounded-full font-semibold transition-all duration-300"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      View Details & Features
-                    </motion.button>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Project Detail Modal */}
-        <AnimatePresence>
-          {selectedProject && (
+      {/* Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-              onClick={() => setSelectedProject(null)}
+              onClick={() => {
+                setSelectedProject(null);
+                setPlayingVideo({});
+              }}
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="fixed inset-x-0 bottom-0 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-50 w-full sm:max-w-2xl max-h-[90vh] overflow-y-auto bg-background border border-border rounded-t-lg sm:rounded-lg shadow-xl"
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 50 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                className=" rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Modal Header */}
-                <div className="p-8 border-b border-border">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h2 className="text-3xl font-bold gradient-text mb-2">
-                        {selectedProject.title}
-                      </h2>
-                      <p className="text-foreground/60">
-                        {selectedProject.duration} • {selectedProject.year}
-                      </p>
-                    </div>
-                    <motion.button
-                      onClick={() => setSelectedProject(null)}
-                      className="p-2 hover:bg-muted/50 rounded-full transition-colors"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <X size={24} />
-                    </motion.button>
-                  </div>
+              <div className="sticky top-0 bg-background border-b border-border px-6 py-4 flex items-start justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground">{selectedProject.title}</h2>
+                  <p className="text-sm text-text-muted mt-1">
+                    {selectedProject.duration} · {selectedProject.year} · {selectedProject.team}
+                  </p>
                 </div>
+                <button
+                  onClick={() => {
+                    setSelectedProject(null);
+                    setPlayingVideo({});
+                  }}
+                  className="p-1.5 hover:bg-hover rounded-md transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
 
-                {/* Modal Content */}
-                <div className="p-8">
-                  {/* Video Section */}
-                  {selectedProject.videoUrl && (
-                    <div className="mb-8">
-                      <h3 className="text-xl font-semibold mb-4">
-                        Project Demo
-                      </h3>
-                      <div className="relative aspect-video bg-muted rounded-xl overflow-hidden">
-                        <video
-                          src={selectedProject.videoUrl}
-                          controls
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </div>
+              <div className="p-6 space-y-6">
+                {/* Media */}
+                <div className="relative aspect-video rounded-lg overflow-hidden border border-border bg-muted"
+                >
+                  {selectedProject.videoUrl && playingVideo[selectedProject.id] ? (
+                    <video
+                      src={selectedProject.videoUrl}
+                      controls
+                      autoPlay
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <>
+                      <Image
+                        src={selectedProject.screenshotUrl}
+                        alt={selectedProject.title}
+                        fill
+                        className="object-cover"
+                      />
+                      {selectedProject.videoUrl && (
+                        <button
+                          onClick={() =>
+                            setPlayingVideo((prev) => ({ ...prev, [selectedProject.id]: true }))
+                          }
+                          className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors"
+                        >
+                          <div className="bg-background/90 rounded-full p-3">
+                            <Play size={24} className="text-foreground fill-foreground" />
+                          </div>
+                        </button>
+                      )}
+                    </>
                   )}
+                </div>
 
-                  {/* Long Description */}
-                  <div className="mb-8">
-                    <h3 className="text-xl font-semibold mb-4">
-                      Project Overview
-                    </h3>
-                    <p className="text-foreground/80 leading-relaxed">
-                      {selectedProject.longDescription}
-                    </p>
+                {/* Overview */}
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Overview</h3>
+                  <p className="text-[15px] leading-[1.7] text-foreground">{selectedProject.longDescription}</p>
+                </div>
+
+                {/* Metrics */}
+                {selectedProject.metrics && selectedProject.metrics.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {selectedProject.metrics.map((metric) => (
+                      <div key={metric.label} className="notion-callout !p-3">
+                        <div className="text-lg font-semibold text-foreground">{metric.value}</div>
+                        <div className="text-xs text-text-muted">{metric.label}</div>
+                      </div>
+                    ))}
                   </div>
+                )}
 
-                  {/* Features */}
-                  <div className="mb-8">
-                    <h3 className="text-xl font-semibold mb-4">Key Features</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {selectedProject.features.map((feature, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.1 }}
-                          className="flex items-start gap-3"
-                        >
-                          <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
-                          <span className="text-foreground/80">{feature}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Technology Stack */}
-                  <div className="mb-8">
-                    <h3 className="text-xl font-semibold mb-4">
-                      Technology Stack
-                    </h3>
-                    <div className="flex flex-wrap gap-3">
-                      {selectedProject.tech.map((tech, idx) => (
-                        <motion.span
-                          key={idx}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: idx * 0.05 }}
-                          className="px-4 py-2 bg-accent/10 text-accent rounded-full border border-accent/20 font-medium"
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Project Links */}
-                  <div className="flex gap-4">
-                    {selectedProject.githubUrl && (
-                      <motion.a
-                        href={selectedProject.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full hover:bg-accent transition-colors"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Github size={20} />
-                        View Code
-                      </motion.a>
-                    )}
-                    {selectedProject.liveUrl && (
-                      <motion.a
-                        href={selectedProject.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 border-2 border-foreground text-foreground rounded-full hover:bg-foreground hover:text-background transition-colors"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <ExternalLink size={20} />
-                        Live Demo
-                      </motion.a>
-                    )}
+                {/* Tech */}
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Technologies</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.tech.map((tech) => (
+                      <span key={tech} className="notion-pill">{tech}</span>
+                    ))}
                   </div>
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-};
 
-export default PortfolioPage;
+                {/* Features */}
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Key Features</h3>
+                  <ul className="space-y-1.5">
+                    {selectedProject.features.map((feature, idx) => (
+                      <li key={idx} className="text-[15px] leading-[1.6] text-foreground flex items-start gap-2">
+                        <span className="text-text-muted mt-1.5">•</span>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Links */}
+                <div className="flex flex-wrap gap-3 pt-2">
+                  {selectedProject.githubUrl && (
+                    <a
+                      href={selectedProject.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border border-border rounded-md hover:bg-hover transition-colors"
+                    >
+                      <Github size={16} />
+                      View Code
+                    </a>
+                  )}
+                  {selectedProject.liveUrl && (
+                    <a
+                      href={selectedProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-foreground text-background rounded-md hover:opacity-80 transition-opacity"
+                    >
+                      <ExternalLink size={16} />
+                      Live Demo
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </main>
+  );
+}

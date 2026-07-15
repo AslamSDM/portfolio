@@ -1,474 +1,389 @@
 "use client";
-import React, { useState, useEffect, Suspense } from "react";
+
+import Link from "next/link";
 import Image from "next/image";
-import {
-  Mail,
-  Phone,
-  Github,
-  Linkedin,
-  Briefcase,
-} from "lucide-react";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { Github, Linkedin, Mail, Phone } from "lucide-react";
 
-// Dynamically import Spline to avoid SSR issues
-const Spline = React.lazy(() =>
-  import("@splinetool/react-spline").then((mod) => ({ default: mod.default }))
-);
-
-const Portfolio = () => {
-  const [mounted, setMounted] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const experiences = [
-    {
-      company: "KingIT Solutions",
-      role: "Software Engineer",
-      location: "Hungary (Remote)",
-      duration: "March 2024 – Present",
-      achievements: [
-        "Architected high-availability Rust backend systems with Kubernetes orchestration and horizontal scaling",
-        "Engineered prediction market DApp using Chainlink oracles/automation with 99.9% uptime",
-        "Optimized smart contract gas consumption by 25% through storage layout restructuring",
-      ],
-    },
-    {
-      company: "Onchain VC",
-      role: "Software Engineer (Blockchain, AI)",
-      location: "London (Remote)",
-      duration: "Feb 2022 – March 2024",
-      achievements: [
-        "Spearheaded development of 15+ EVM DApps using Next.js/Nest.js with PostgreSQL/Redis backend",
-        "Deployed AWS infrastructure supporting 50K+ MAU across bridging/swapping/LSD protocols",
-        "Pioneered AI-DApp integration using LLM fine-tuning (LoRa/QLoRa) for 40% faster inference",
-        "Developed cross-chain Telegram bots (EVM/Solana/APTOS) handling 1M+ monthly requests",
-      ],
-    },
-    {
-      company: "Pepped Ones",
-      role: "Fullstack Developer",
-      location: "Trivandrum",
-      duration: "Jan 2021 – Jan 2022",
-      achievements: [
-        "Built scalable REST APIs with Express.js/MongoDB serving 10K+ daily requests",
-        "Contributed to React-based frontends improving user engagement by 35%",
-      ],
-    },
-  ];
-
-  const skills = {
-    Languages: [
-      "Rust",
-      "TypeScript",
-      "JavaScript",
-      "Python",
-      "Solidity",
-      "Go",
-      "C++",
-      "SQL",
-      "Move",
-      "Cairo",
-      "Huff",
+const experiences = [
+  {
+    company: "Janium.ai",
+    role: "Software Developer",
+    location: "US (Remote)",
+    duration: "Jan 2026 – March 2026",
+    achievements: [
+      "Built frontend dashboard with a Zapier-like visual interface for LinkedIn and email automation workflows using React.js/Next.js.",
+      "Developed Rust backend with GraphQL API and Rust actors for LinkedIn automation at scale.",
+      "Integrated Xpra-based browser automation for headless LinkedIn session management and interaction orchestration.",
     ],
-    Frontend: ["Next.js", "React", "Redux", "Tailwind CSS", "Flutter"],
-    Backend: ["Nest.js", "Node.js", "Express", "Axum", "Actix"],
-    Blockchain: [
-      "Ethereum",
-      "Solana",
-      "Chainlink",
-      "Hardhat",
-      "Foundry",
-      "Ethers.js",
+  },
+  {
+    company: "KingIT Solutions",
+    role: "Software Engineer",
+    location: "Hungary (Remote)",
+    duration: "March 2024 – January 2026",
+    achievements: [
+      "Architected high-availability Rust backend systems utilizing Kubernetes for orchestration and horizontal scaling.",
+      "Engineered a prediction market DApp using Chainlink oracles/automation with 99.9% uptime on EVM chains.",
+      "Optimized smart contract gas estimation and consumption by 25% through storage layout restructuring.",
+      "Built customer care call automation services using Python/FastAPI with conversational AI pipelines.",
+      "Fine-tuned LLM models using PyTorch for domain-specific inference, improving response accuracy for client workflows.",
     ],
-    Databases: ["PostgreSQL", "MongoDB", "Redis", "Supabase"],
-    DevOps: ["Docker", "Kubernetes", "AWS", "GCP", "Linux", "Git"],
-    "AI/ML": ["LLMs", "Machine Learning", "Deep Learning", "Langchain", "DSPy"],
-  };
+  },
+  {
+    company: "Onchain VC",
+    role: "Software Engineer (Blockchain, AI)",
+    location: "London (Remote)",
+    duration: "Feb 2022 – Dec 2023",
+    achievements: [
+      "Spearheaded development of 15+ EVM DApps (interacting with ETH and ERC-20 tokens) using Next.js/React.js frontend and Node.js backend with PostgreSQL/Redis.",
+      "Deployed AWS infrastructure supporting 50K+ monthly active users across staking/swapping protocols.",
+      "Pioneered AI-DApp integration using LLM fine-tuning (LoRa/QLoRa) for 40% faster inference.",
+      "Developed cross-chain Telegram bots (EVM/Solana/APTOS) handling 100k monthly requests.",
+    ],
+  },
+  {
+    company: "Pepped Ones",
+    role: "Fullstack Developer",
+    location: "Trivandrum",
+    duration: "Jan 2019 – Jan 2022",
+    achievements: [
+      "Built scalable REST APIs with Express.js/Node.js and MongoDB serving 10K+ daily requests.",
+      "Contributed to React.js-based frontends improving user engagement by 35%.",
+      "Developed Web3 applications with Solidity smart contracts for decentralized finance platforms on EVM chains.",
+      "Created and maintained blockchain indexing services for on-chain data analysis.",
+    ],
+  },
+];
 
-  const scrollToSection = (sectionId: string) => {
-    if (sectionId === "portfolio") {
-      router.push("/portfolio");
-      return;
-    }
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-  };
+const education = {
+  school: "College of Engineering Trivandrum",
+  degree: "BTech Electrical and Electronics Engineering",
+  detail: "CGPA 8.38 (First Class)",
+  location: "Trivandrum, Kerala",
+};
 
-  if (!mounted) return null;
+const skills: Record<string, string[]> = {
+  Languages: ["Rust", "Go", "TypeScript", "JavaScript", "SQL", "Python", "C", "C++", "C#", "Huff"],
+  "Web Technologies": [
+    "React.js",
+    "Next.js",
+    "Node.js",
+    "Nest.js",
+    "Express.js",
+    "Flutter",
+    "Actix",
+    "Axum",
+    "Redux",
+    "Tailwind CSS",
+    "Gin",
+    "Remotion",
+    "FastAPI",
+    "Chrome Extensions",
+  ],
+  Blockchain: ["Solidity", "Foundry", "Hardhat", "Ethers.js", "EVM", "Solana", "ERC20", "Gas Estimation", "Web3.js"],
+  "Backend & Databases": [
+    "Rust (Actix, Axum)",
+    "Go (Gin)",
+    "Python (FastAPI)",
+    "Node.js (NestJS, Express)",
+    "PostgreSQL",
+    "TimescaleDB",
+    "MongoDB",
+    "Redis",
+    "Prisma",
+    "Supabase",
+    "BullMQ",
+    "Kafka",
+    "SQLite",
+    "Qdrant",
+    "Drizzle ORM",
+  ],
+  "DevOps & Tools": ["Docker", "Kubernetes", "Linux", "Git", "AWS", "GCP", "Azure", "Xpra", "SendGrid", "Apify"],
+  "AI/ML": [
+    "PyTorch",
+    "LangChain",
+    "LangGraph",
+    "LlamaIndex",
+    "Claude SDK",
+    "LoRa",
+    "Fine-tuning & Quantization",
+    "Gemini",
+    "Ollama",
+    "Mastra",
+    "Vercel AI SDK",
+    "Whisper",
+    "MLFlow",
+    "ZenML",
+    "Hugging Face",
+  ],
+};
 
+const socialLinks = [
+  { icon: Mail, label: "Email", href: "mailto:aslamprpd@gmail.com" },
+  { icon: Github, label: "GitHub", href: "https://github.com/AslamSDM" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/mohammed-aslam-saidummadath" },
+  { icon: Phone, label: "Phone", href: "tel:+91-8281794564" },
+];
+
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  href: string;
+}
+
+const projects: Project[] = [
+  {
+    title: "Janium.ai",
+    description: "LinkedIn and email automation platform with a Zapier-like visual workflow builder and Rust actor backend.",
+    tech: ["React.js", "Next.js", "Rust", "GraphQL", "Xpra"],
+    href: "https://app.janium.ai/",
+  },
+  {
+    title: "Remawt",
+    description: "Motion graphics video generation platform using LangGraph orchestration, Remotion rendering, and BullMQ job queues.",
+    tech: ["LangGraph", "Remotion", "BullMQ", "Node.js"],
+    href: "https://remawt.com",
+  },
+  {
+    title: "Mentiq Analytics",
+    description: "Full-stack analytics platform with Go backend, TimescaleDB time-series storage, and AI churn prediction.",
+    tech: ["Go", "PostgreSQL", "TimescaleDB", "Next.js", "Claude SDK"],
+    href: "https://mentiq-dashboard.vercel.app/",
+  },
+  {
+    title: "Prawler",
+    description: "AI-powered stealth social media automation and outreach system with CV-resistant browser automation.",
+    tech: ["Python", "FastAPI", "Gemini", "nodriver"],
+    href: "#",
+  },
+  {
+    title: "Chatqik",
+    description: "Multilingual customer support chatbot for WhatsApp and web using RAG and Mastra AI orchestration.",
+    tech: ["Node.js", "Qdrant", "Mastra", "Vercel AI SDK"],
+    href: "https://chatqik.com",
+  },
+  {
+    title: "PredictX",
+    description: "Decentralized prediction market with real-time chat, wallet auth, and AI contract validation.",
+    tech: ["Next.js", "Solidity", "Viem", "Socket.io"],
+    href: "https://predictx-mu.vercel.app/",
+  },
+  {
+    title: "Axton Protocol",
+    description: "Anonymized OTC trading platform for blockchain assets with zero slippage and real yield.",
+    tech: ["Next.js", "Node.js", "WebSocket", "Framer Motion"],
+    href: "https://axtonmarkets.com",
+  },
+];
+
+
+
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground grain-texture noise-texture transition-colors duration-300">
-      {/* Navigation */}
-
-      {/* Hero Section */}
-      <section
-        id="home"
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
-      >
-        {/* Spline 3D Background */}
-        <div className="spline-container bg-black">
-          {mounted && (
-            <Suspense
-              fallback={
-                <div className="absolute inset-0 bg-black flex items-center justify-center">
-                  <div className="text-accent animate-pulse">
-                    Loading 3D Scene...
-                  </div>
-                </div>
-              }
-            >
-              <Spline scene="https://prod.spline.design/VUs1kl9EKK-YhweW/scene.splinecode" />
-            </Suspense>
-          )}
-        </div>
-
-        {/* Content Overlay */}
-        <motion.div
-          className="absolute inset-x-0 bottom-[10px] md:bottom-32 z-10"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="flex flex-col items-center">
-            <motion.div
-              className="flex justify-center gap-4 px-4 flex-wrap"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              <motion.button
-                onClick={() => scrollToSection("portfolio")}
-                className="group relative px-6 py-3 overflow-hidden rounded-lg bg-accent backdrop-blur-sm border border-accent/20 text-white font-medium shadow-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="absolute inset-0 w-0 bg-accent/80 transition-all duration-300 ease-out group-hover:w-full"></span>
-                <span className="flex items-center gap-2 relative z-10">
-                  <Briefcase size={18} />
-                  View Portfolio
-                </span>
-              </motion.button>
-              <motion.button
-                onClick={() => scrollToSection("contact")}
-                className="group relative px-6 py-3 overflow-hidden rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium shadow-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="absolute inset-0 w-0 bg-white/20 transition-all duration-300 ease-out group-hover:w-full"></span>
-                <span className="flex items-center gap-2 relative z-10">
-                  <Mail size={18} />
-                  Get In Touch
-                </span>
-              </motion.button>
-            </motion.div>
+    <main className="min-h-screen bg-background">
+      <article className="notion-page fade-in">
+        {/* Hero */}
+        <section className="pt-20">
+          <div className="flex items-start gap-5">
+            <div className="relative w-20 h-20 rounded-full overflow-hidden shrink-0 border border-border bg-muted">
+              <Image
+                src="/images/aslam.jpeg"
+                alt="Mohammed Aslam S"
+                fill
+                className="object-cover"
+                priority
+                sizes="80px"
+              />
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-[34px] leading-[1.15] font-bold tracking-tight text-foreground">
+                Mohammed Aslam S
+              </h1>
+              <p className="text-base text-text-muted mt-1">
+                AI Engineer
+              </p>
+            </div>
           </div>
-        </motion.div>
-      </section>
 
-      {/* Experience Section */}
-      <section id="experience" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Briefcase className="inline-block mr-3 mb-1 text-accent" />
-            Professional Experience
-          </motion.h2>
-
-          <div className="space-y-8">
-            {experiences.map((exp, index) => (
-              <motion.div
-                key={index}
-                className=" rounded-xl p-6 md:p-8 hover:bg-white/10 transition-all duration-300 shadow-lg"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                viewport={{ once: true, margin: "-50px" }}
-                whileHover={{ y: -5 }}
+          <div className="flex flex-wrap items-center gap-2.5 mt-5">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="notion-pill gap-1.5 text-sm hover:text-text-muted transition-colors"
               >
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
-                  <div>
-                    <h3 className="text-xl md:text-2xl font-bold text-accent mb-2">
-                      {exp.role}
-                    </h3>
-                    <h4 className="text-lg md:text-xl font-semibold mb-1 text-white">
-                      {exp.company}
-                    </h4>
-                    <p className="text-white/80">{exp.location}</p>
-                  </div>
-                  <div className="text-accent font-medium mt-2 md:mt-0">
-                    {exp.duration}
-                  </div>
+                <link.icon size={14} />
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium bg-foreground text-background rounded-md hover:opacity-80 transition-opacity"
+            >
+              View Portfolio →
+            </Link>
+            <a
+              href="/Mohammed_Aslam_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium border border-border rounded-md hover:bg-hover transition-colors"
+            >
+              Download CV
+            </a>
+          </div>
+        </section>
+
+        <hr className="notion-divider" />
+
+        {/* About */}
+        <section>
+          <h2 className="text-xl font-semibold text-foreground mb-2.5">About</h2>
+          <p className="text-[15px] leading-[1.7] text-foreground">
+            Full-stack engineer with deep experience in Rust, Go, TypeScript, Python, and blockchain
+            development. I design and build scalable backends, AI-powered automation pipelines,
+            DeFi applications, and developer tooling. Currently focused on agentic systems,
+            video generation platforms, and high-throughput Rust services.
+          </p>
+        </section>
+
+        {/* Projects */}
+        <section className="mt-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-xl font-semibold text-foreground">Selected Projects</h2>
+            <Link href="/portfolio" className="notion-link text-sm">
+              View all →
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {projects.map((project) => (
+              <a
+                key={project.title}
+                href={project.href}
+                target={project.href.startsWith("http") ? "_blank" : undefined}
+                rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="block notion-card group"
+              >
+                <h3 className="font-semibold text-foreground group-hover:text-text-muted transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-sm leading-[1.6] text-text-muted mt-1">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {project.tech.map((tech) => (
+                    <span key={tech} className="notion-pill text-xs">
+                      {tech}
+                    </span>
+                  ))}
                 </div>
-                <ul className="space-y-2">
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Experience */}
+        <section className="mt-8">
+          <h2 className="text-xl font-semibold text-foreground mb-3">Experience</h2>
+          <div className="space-y-3">
+            {experiences.map((exp) => (
+              <div key={exp.company} className="notion-card">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-0.5 mb-2">
+                  <div>
+                    <h3 className="font-semibold text-foreground">{exp.role}</h3>
+                    <p className="text-sm text-text-muted">
+                      {exp.company} · {exp.location}
+                    </p>
+                  </div>
+                  <span className="text-xs text-text-muted shrink-0">{exp.duration}</span>
+                </div>
+                <ul className="space-y-1">
                   {exp.achievements.map((achievement, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <span className="text-accent mr-3 mt-1">▸</span>
-                      <span className="text-white/90">{achievement}</span>
+                    <li
+                      key={idx}
+                      className="text-[14px] leading-[1.55] text-foreground flex items-start gap-2"
+                    >
+                      <span className="text-text-muted mt-1">•</span>
+                      <span>{achievement}</span>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Projects Section */}
-      {/* <section id="projects" className="py-20 px-4 bg-muted/30">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Code className="inline-block mr-3 mb-1 text-accent" />
-            Featured Projects
-          </motion.h2>
-
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                className=" rounded-xl p-6 md:p-8 hover:bg-white/10 transition-all duration-300 group shadow-lg"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                viewport={{ once: true, margin: "-50px" }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-accent transition-colors">
-                    {project.title}
-                  </h3>
-                  <div className="flex gap-2">
-                    {project?.github && (
-                      <motion.a
-                        href={project?.github}
-                        className="text-accent hover:text-white transition-colors"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <Github size={20} />
-                      </motion.a>
-                    )}
-                    {project?.demo && (
-                      <motion.a
-                        href={project.demo}
-                        className="text-accent hover:text-white transition-colors"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <ExternalLink size={20} />
-                      </motion.a>
-                    )}
-                  </div>
-                </div>
-                <p className="text-accent text-sm mb-4 font-medium">
-                  {project.tech}
-                </p>
-                <p className="text-white/90 leading-relaxed">
-                  {project.description}
-                </p>
-              </motion.div>
-            ))}
+        {/* Education */}
+        <section className="mt-8">
+          <h2 className="text-xl font-semibold text-foreground mb-3">Education</h2>
+          <div className="notion-card">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-0.5">
+              <div>
+                <h3 className="font-semibold text-foreground">{education.school}</h3>
+                <p className="text-sm text-foreground">{education.degree}</p>
+              </div>
+              <span className="text-xs text-text-muted shrink-0">{education.location}</span>
+            </div>
+            <p className="text-xs text-text-muted mt-1.5">{education.detail}</p>
           </div>
-        </div>
-      </section> */}
+        </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="py-20 px-4 bg-muted/20">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16 text-white"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            Technical Skills
-          </motion.h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {Object.entries(skills).map(([category, skillList], index) => (
-              <motion.div
-                key={index}
-                className=" rounded-xl p-6 hover:bg-white/10 transition-all duration-300 shadow-lg"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                viewport={{ once: true, margin: "-50px" }}
-                whileHover={{ y: -5 }}
-              >
-                <h3 className="text-xl font-bold text-accent mb-4">
+        {/* Skills */}
+        <section className="mt-8">
+          <h2 className="text-xl font-semibold text-foreground mb-3">Skills</h2>
+          <div className="space-y-3">
+            {Object.entries(skills).map(([category, skillList]) => (
+              <div key={category}>
+                <h3 className="text-xs font-medium text-text-muted mb-1.5 uppercase tracking-wide">
                   {category}
                 </h3>
-                <div className="flex flex-wrap gap-2">
-                  {skillList.map((skill, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-accent/20 text-white px-3 py-1 rounded-full text-sm border border-accent/30 hover:bg-accent/30 transition-colors cursor-default"
-                    >
+                <div className="flex flex-wrap gap-1.5">
+                  {skillList.map((skill) => (
+                    <span key={skill} className="notion-pill text-sm">
                       {skill}
                     </span>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Avatar */}
-          <motion.div
-            className="flex justify-center mb-8"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <motion.div
-              className="relative w-32 h-32 md:w-40 md:h-40"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-accent to-accent/70 rounded-full blur-md opacity-30 animate-pulse"></div>
-              <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-accent/20 shadow-2xl">
-                <Image
-                  src="/images/aslam.jpeg"
-                  alt="Mohammed Aslam - Software Engineer"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-transparent to-transparent hover:from-accent/10 hover:to-transparent transition-all duration-300"></div>
-              </div>
-              {/* Floating ring animation */}
-              <motion.div
-                className="absolute inset-0 rounded-full border-2 border-accent/30"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              ></motion.div>
-            </motion.div>
-          </motion.div>
-
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-6 text-white"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Let&apos;s Connect
-          </motion.h2>
-
-          <motion.p
-            className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Ready to build something amazing together? I&apos;m always
-            interested in discussing new opportunities and innovative projects.
-          </motion.p>
-
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <motion.a
-              href="tel:+91-8281794564"
-              className="flex flex-col items-center gap-3 p-6  rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
-              whileHover={{ y: -5, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <motion.div
-                className="p-3 bg-accent/10 rounded-full group-hover:bg-accent/20 transition-colors"
-                whileHover={{ rotate: 10 }}
-              >
-                <Phone size={24} className="text-accent" />
-              </motion.div>
-              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
-                +91-8281794564
-              </span>
-            </motion.a>
-
-            <motion.a
-              href="mailto:aslamprpd@gmail.com"
-              className="flex flex-col items-center gap-3 p-6  rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
-              whileHover={{ y: -5, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <motion.div
-                className="p-3 bg-accent/10 rounded-full group-hover:bg-accent/20 transition-colors"
-                whileHover={{ rotate: 10 }}
-              >
-                <Mail size={24} className="text-accent" />
-              </motion.div>
-              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
-                Email
-              </span>
-            </motion.a>
-
-            <motion.a
-              href="https://github.com/AslamSDM"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center gap-3 p-6  rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
-              whileHover={{ y: -5, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <motion.div
-                className="p-3 bg-accent/10 rounded-full group-hover:bg-accent/20 transition-colors"
-                whileHover={{ rotate: 10 }}
-              >
-                <Github size={24} className="text-accent" />
-              </motion.div>
-              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
-                GitHub
-              </span>
-            </motion.a>
-
-            <motion.a
+        {/* Contact */}
+        <section className="mt-12">
+          <h2 className="text-xl font-semibold text-foreground mb-2">Let&apos;s connect</h2>
+          <p className="text-[15px] leading-[1.7] text-foreground">
+            Open to new opportunities, collaborations, and interesting projects. Reach out via{" "}
+            <a href="mailto:aslamprpd@gmail.com" className="notion-link">
+              email
+            </a>
+            ,{" "}
+            <a
               href="https://linkedin.com/in/mohammed-aslam-saidummadath"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-3 p-6  rounded-xl hover:bg-white/10 transition-all duration-300 group shadow-lg"
-              whileHover={{ y: -5, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="notion-link"
             >
-              <motion.div
-                className="p-3 bg-accent/10 rounded-full group-hover:bg-accent/20 transition-colors"
-                whileHover={{ rotate: 10 }}
-              >
-                <Linkedin size={24} className="text-accent" />
-              </motion.div>
-              <span className="text-white/90 group-hover:text-accent transition-colors font-medium">
-                LinkedIn
-              </span>
-            </motion.a>
-          </motion.div>
-        </div>
-      </section>
-      {/* Social Links Section */}
-    </div>
+              LinkedIn
+            </a>
+            , or{" "}
+            <a
+              href="https://github.com/AslamSDM"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="notion-link"
+            >
+              GitHub
+            </a>
+            .
+          </p>
+        </section>
+      </article>
+    </main>
   );
-};
-
-export default Portfolio;
+}
